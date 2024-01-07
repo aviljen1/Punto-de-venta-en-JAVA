@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class ClienteDAO {
+
+public class ClienteDAO implements CrudOperations {
     
     Conexion cn = new Conexion();
     Connection con;

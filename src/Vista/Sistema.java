@@ -6,6 +6,7 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
+import Modelo.MockClienteDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
 public class Sistema extends javax.swing.JFrame {
 
     Cliente cl = new Cliente();
-    ClienteDAO client = new ClienteDAO();
+//    ClienteDAO client = new ClienteDAO();
+    MockClienteDAO client = new MockClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
 
     public Sistema() {
@@ -174,6 +176,11 @@ public class Sistema extends javax.swing.JFrame {
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Nventa.png"))); // NOI18N
         jButton1.setText("Nueva venta");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Clientes.png"))); // NOI18N
         jButton2.setText("Clientes");
@@ -1088,6 +1095,10 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         LimpiarCliente();
     }//GEN-LAST:event_btnNuevoClienteActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
