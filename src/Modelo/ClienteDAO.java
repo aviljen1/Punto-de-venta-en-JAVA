@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Modelo;
+import Exceptions.ValidationException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,9 +27,9 @@ public class ClienteDAO implements CrudOperations {
             con = cn.getConnection();
             ps = con.prepareStatement(sql);
            // ps.setInt(1, cl.getId());
-            ps.setInt(1, cl.getDni());
+            ps.setString(1, cl.getDni());
             ps.setString(2, cl.getNombre());
-            ps.setInt(3, cl.getTelefono());
+            ps.setString(3, cl.getTelefono());
             ps.setString(4, cl.getDireccion());
 	    ps.setString(5, cl.getRazon());
             ps.execute();
@@ -52,15 +53,20 @@ public class ClienteDAO implements CrudOperations {
            con = cn.getConnection();
            ps = con.prepareStatement(sql);
            rs = ps.executeQuery();
-           while (rs.next()) {               
-               Cliente cl = new Cliente();
-               cl.setId(rs.getInt("id"));
-               cl.setDni(rs.getInt("dni"));
-               cl.setNombre(rs.getString("nombre"));
-               cl.setTelefono(rs.getInt("telefono"));
-               cl.setDireccion(rs.getString("direccion"));
-	       cl.setRazon(rs.getString("razon"));
-               ListaCl.add(cl);
+           while (rs.next()) {
+               try {
+                    Cliente cl = new Cliente();
+                    cl.setId(rs.getInt("id"));
+                    cl.setDni(rs.getString("dni"));
+                    cl.setNombre(rs.getString("nombre"));
+                    cl.setTelefono(rs.getString("telefono"));
+                    cl.setDireccion(rs.getString("direccion"));
+                    cl.setRazon(rs.getString("razon"));
+                    ListaCl.add(cl);
+               } catch (ValidationException ex) {
+                   continue;
+               }
+               
            }
        } catch (SQLException e) {
            System.out.println(e.toString());
@@ -90,9 +96,9 @@ public class ClienteDAO implements CrudOperations {
         String sql = "UPDATE clientes SET dni=?, nombre=?, telefono=?, direccion=?, razon=? WHERE id=?";
         try {
            ps = con.prepareStatement(sql);   
-           ps.setInt(1, cl.getDni());
+           ps.setString(1, cl.getDni());
            ps.setString(2, cl.getNombre());
-           ps.setInt(3, cl.getTelefono());
+           ps.setString(3, cl.getTelefono());
            ps.setString(4, cl.getDireccion());
            ps.setString(5, cl.getRazon());
            ps.setInt(6, cl.getId());

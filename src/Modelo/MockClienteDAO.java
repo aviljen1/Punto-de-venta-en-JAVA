@@ -17,6 +17,8 @@ public class MockClienteDAO implements CrudOperations {
    
     @Override
     public boolean RegistrarCliente(Cliente cl){
+        // ID must be unique and incremental
+        cl.setId(this.ListaCl.size()+1);
         this.ListaCl.add(cl);
         return true;
     }
@@ -40,6 +42,13 @@ public class MockClienteDAO implements CrudOperations {
     
     @Override
     public boolean ModificarCliente(Cliente cl){
-        return true;
+        for(Cliente cl_element: this.ListaCl){
+            if(cl_element.getId() == cl.getId()){
+                cl_element.update(cl);
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

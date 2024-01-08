@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Exceptions.ValidationException;
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
 import Modelo.MockClienteDAO;
@@ -16,8 +17,6 @@ import javax.swing.table.DefaultTableModel;
  * @author JEN
  */
 public class Sistema extends javax.swing.JFrame {
-
-    Cliente cl = new Cliente();
 //    ClienteDAO client = new ClienteDAO();
     MockClienteDAO client = new MockClienteDAO();
     DefaultTableModel modelo = new DefaultTableModel();
@@ -1000,12 +999,12 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClienteActionPerformed
         // TODO add your handling code here:
-        if (!"".equals(txtDniCliente.getText()) || !"".equals(txtNombreCliente.getText()) || !"".equals(txtTelefonoCliente.getText()) || !"".equals(txtDireccionCliente.getText()) || !"".equals(txtRazonCliente.getText())) {
-
+        try {
+            Cliente cl = new Cliente();
             //cl.setId(Integer.parseInt(txtIdCliente.getText()));
-            cl.setDni(Integer.parseInt(txtDniCliente.getText()));
+            cl.setDni(txtDniCliente.getText());
             cl.setNombre(txtNombreCliente.getText());
-            cl.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
+            cl.setTelefono(txtTelefonoCliente.getText());
             cl.setDireccion(txtDireccionCliente.getText());
             cl.setRazon(txtRazonCliente.getText());
             client.RegistrarCliente(cl);
@@ -1014,9 +1013,9 @@ public class Sistema extends javax.swing.JFrame {
             ListarCliente();
 
             JOptionPane.showMessageDialog(null, "Cliente Resgistrado");
-        } else {
-            JOptionPane.showMessageDialog(null, "Los campos estan vacios o los valores no son correctos");
-
+            
+        } catch (ValidationException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btnGuardarClienteActionPerformed
 
@@ -1073,10 +1072,12 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         if ("".equals(txtIdCliente.getText())) {
             JOptionPane.showMessageDialog(null, "seleccione una fila");
-        } else if (!"".equals(txtDniCliente.getText()) & !"".equals(txtNombreCliente.getText()) & !"".equals(txtTelefonoCliente.getText()) & !"".equals(txtDireccionCliente.getText()) & !"".equals(txtRazonCliente.getText()) & !"".equals(txtIdCliente.getText())) {
-                cl.setDni(Integer.parseInt(txtDniCliente.getText()));
+        } else {
+            try {
+                Cliente cl = new Cliente();
+                cl.setDni(txtDniCliente.getText());
                 cl.setNombre(txtNombreCliente.getText());
-                cl.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
+                cl.setTelefono(txtTelefonoCliente.getText());
                 cl.setDireccion(txtDireccionCliente.getText());
                 cl.setRazon(txtRazonCliente.getText());
                 cl.setId(Integer.parseInt(txtIdCliente.getText()));
@@ -1085,8 +1086,9 @@ public class Sistema extends javax.swing.JFrame {
                 LimpiarTable();
                 LimpiarCliente();
                 ListarCliente();
-        }else{
-            JOptionPane.showMessageDialog(null, "Los campos estan vacios");
+            } catch (ValidationException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
             
     }//GEN-LAST:event_btnEditarClienteActionPerformed
