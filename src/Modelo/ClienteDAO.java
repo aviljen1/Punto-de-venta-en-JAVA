@@ -13,7 +13,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 
-public class ClienteDAO implements CrudOperations {
+// TODO: Refactorizar esta clase para que se adapte al modelo servicio-store
+public class ClienteDAO {
     
     Conexion cn = new Conexion();
     Connection con;

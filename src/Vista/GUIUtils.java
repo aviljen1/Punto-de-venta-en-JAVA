@@ -2,17 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Exceptions;
+package Vista;
+
+import java.util.Map;
+import javax.swing.JTable;
 
 /**
  *
  * @author Nico
  */
-public class ValidationException extends Exception {
+public class GUIUtils {
     
-    public ValidationException(String errorMessage) {
-        super(errorMessage);
+    public static final void populate(JTable table, Map<String, String> data){
+        // Ver como hacer generica la carga de una tabla
     }
     
 }
-

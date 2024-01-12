@@ -9,10 +9,11 @@ import java.util.List;
 /**
  *
  * @author Nico
+ * @param <T>
  */
-interface CrudOperations {
-    boolean RegistrarCliente(Cliente cl);
-    List ListarCliente();
-    boolean EliminarCliente(int id);
-    boolean ModificarCliente(Cliente cl);
+public interface CrudOperations <T> {
+    boolean Registrar(T cl);
+    List Listar();
+    boolean Eliminar(int id);
+    boolean Modificar(T cl);
 }

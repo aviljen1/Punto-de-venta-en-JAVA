@@ -8,11 +8,10 @@ package Exceptions;
  *
  * @author Nico
  */
-public class ValidationException extends Exception {
+public class StoreException extends Exception {
     
-    public ValidationException(String errorMessage) {
+    public StoreException(String errorMessage) {
         super(errorMessage);
     }
     
 }
-
