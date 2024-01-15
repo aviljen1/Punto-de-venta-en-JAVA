@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Exceptions.StoreException;
 import Exceptions.ValidationException;
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
@@ -35,11 +36,37 @@ public class Sistema extends javax.swing.JFrame {
         txtIdCliente.setVisible(false);
     }
 
+    public void ListarProductos() {
+        List<Producto> productos = null;
+        try {
+            productos = this.productosService.list();
+        } catch (StoreException ex) {
+            return;
+        }
+        
+        modelo = (DefaultTableModel) TableProducto.getModel();
+        Object[] ob = new Object[5];
+        for (int i = 0; i < productos.size(); i++) {
+            ob[0] = productos.get(i).getId();
+            ob[1] = productos.get(i).getTitulo();
+            ob[2] = productos.get(i).getDescripcion();
+            ob[3] = productos.get(i).getCantidadInicial();
+            ob[4] = productos.get(i).getPrecioUnitario();
+ 
+            modelo.addRow(ob);
+        }
+        TableProducto.setModel(modelo);
+    }
+    
     public void ListarCliente() { // este metodo se va a ejecutar cada vez que le demos clic en el boton Clientes
+        
 //        List<Cliente> ListarCl = client.ListarCliente();
 //        modelo = (DefaultTableModel) TableCliente.getModel();
 //        Object[] ob = new Object[6];
 //        for (int i = 0; i < ListarCl.size(); i++) {
+//          for (int j = 0;j < 7; j++){
+//                ob[j] = ListarCl.get(i).getId();
+//          }
 //            ob[0] = ListarCl.get(i).getId();
 //            ob[1] = ListarCl.get(i).getDni();
 //            ob[2] = ListarCl.get(i).getNombre();
@@ -1114,12 +1141,18 @@ public class Sistema extends javax.swing.JFrame {
         
         try {
             this.productosService.add(nuevoProducto);
+            LimpiarTable();
+            ListarProductos();
+            // TODO: Hacer un flush de los controles que quedaron con informacion
         } catch (Exception ex) {
             // Manejar la excepcion y mostrar mensajes de error
+
+            // JOptionPane.showMessageDialog(null, ex.getMessage());
             // Resaltar campos erroneos?
+            // Revisar Exceptions.ValidationException
+
             // Hay que agregar a la excepcion los campos que fallaron y su motivo.
         }
-        
         
     }//GEN-LAST:event_btnSaveProductoActionPerformed
 

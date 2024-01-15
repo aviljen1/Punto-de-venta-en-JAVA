@@ -27,6 +27,10 @@ public class Producto {
         descripcion = "";
     }
     
+    public String[] getColumnNames() {
+        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial" };
+    }
+    
     public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion) {
         this.id = id;
         this.precioUnitario = precioUnitario;

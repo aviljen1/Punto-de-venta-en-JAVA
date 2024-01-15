@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ProductosStore implements CrudOperations<Producto> {
 
-    private List<Producto> store = new ArrayList<>(); 
+    private List<Producto> store = new ArrayList<>();
     
     @Override
     public boolean Registrar(Producto cl) {
