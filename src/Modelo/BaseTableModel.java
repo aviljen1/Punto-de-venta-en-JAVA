@@ -4,17 +4,10 @@
  */
 package Modelo;
 
-import java.util.List;
-
 /**
  *
  * @author Nico
- * @param <T>
  */
-public interface CrudOperations <T> {
-    boolean Registrar(T cl);
-    List Listar();
-    boolean Eliminar(int id);
-    boolean Modificar(T cl);
-    T Obtener(T obj);
+public interface BaseTableModel {
+    Object[] toArray();
 }

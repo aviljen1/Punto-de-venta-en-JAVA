@@ -45,5 +45,10 @@ public class VentasStore implements CrudOperations<Venta> {
     public boolean Modificar(Venta cl) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public Venta Obtener(Venta obj) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

@@ -4,17 +4,19 @@
  */
 package ProductosService;
 
+import Modelo.BaseTableModel;
 /**
  *
  * @author Nico
  */
-public class Producto {
+public class Producto implements BaseTableModel {
 
     private int id;
     private float precioUnitario;
     private int cantidadInicial;
     private String titulo;
     private String descripcion = null;
+    private String codigo;
     
     // TODO: Convertir en enum
     private String categoria;
@@ -25,18 +27,40 @@ public class Producto {
         cantidadInicial = 0;
         titulo = "";
         descripcion = "";
+        codigo = "";
     }
     
-    public String[] getColumnNames() {
-        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial" };
+    public static final String[] getColumnNames() {
+        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "Descripcion", "Categoria", "Codigo"};
     }
     
-    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion) {
+    @Override
+    public String toString() {
+        return this.titulo;
+    }
+    
+    @Override
+    public Object[] toArray() {
+        Object[] values = new Object[]{
+            this.id,
+            this.precioUnitario,
+            this.cantidadInicial,
+            this.titulo,
+            this.descripcion,
+            this.categoria,
+            this.codigo
+        };
+        
+        return values;
+    }
+    
+    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo) {
         this.id = id;
         this.precioUnitario = precioUnitario;
         this.cantidadInicial = cantidadInicial;
         this.titulo = titulo;
         this.descripcion = descripcion;
+        this.codigo = codigo;
     }
     
     public int getId() {
@@ -49,6 +73,14 @@ public class Producto {
     
     public float getPrecioUnitario() {
         return this.precioUnitario;
+    }
+    
+    public void setCodigo(String codigo){
+        this.codigo = codigo;
+    }
+    
+    public String getCodigo() {
+        return this.codigo;
     }
     
     public void setId(int id) {
@@ -86,4 +118,5 @@ public class Producto {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+
 }

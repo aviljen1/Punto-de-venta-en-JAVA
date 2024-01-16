@@ -4,6 +4,8 @@
  */
 package VentasService;
 
+import Modelo.BaseTableModel;
+import ProductosService.Producto;
 import java.util.List;
 
 /**
@@ -12,10 +14,10 @@ import java.util.List;
  * 
  * Este modelo solamente es para mantener la informacion
  */
-public class Venta {
+public class Venta implements BaseTableModel {
     private int id;
     private float monto;
-//    private List<Producto> productos;
+    private List<Producto> productos;
     private String compradorDNI;
     // TODO: Agregar clase para la informacion del pago
 //    private PaymentInformation paymentInfo;
@@ -31,6 +33,24 @@ public class Venta {
         this.monto = monto;
         this.compradorDNI = compradorDNI;
     }
+    
+    public void addProduct(Producto prod) {
+        this.productos.add(prod);
+    }
+    
+    public void removeProduct(String codigo) {
+        int indexToRemove = -1;
+        
+        for (int i = 0; i < this.productos.size(); i++){
+            if (this.productos.get(i).getCodigo() == codigo){
+                indexToRemove = i;
+                break;
+            }
+        }
+        
+        this.productos.remove(indexToRemove);
+    }
+    
     
     public int getId() {
         return id;
@@ -54,5 +74,18 @@ public class Venta {
     
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[]{
+            this.id,
+            this.monto,
+            this.compradorDNI
+        };
+    }
+    
+    public static final String[] getColumnNames() {
+        return new String[]{ "ID", "Monto", "Comprador DNI" };
     }
 }

@@ -18,3 +18,17 @@ public class GUIUtils {
     }
     
 }
+
+
+// Para crear la tabla necesito
+/**
+ * columnNames
+ * data
+ * 
+ * JTable table = new JTable(data, columnNames)
+ * 
+ * JTable tiene dos constructores:
+ * JTable(Object[][] rowData, Object[] columnNames)
+   JTable(Vector rowData, Vector columnNames)
+
+*/

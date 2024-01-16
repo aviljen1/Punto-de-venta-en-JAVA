@@ -18,7 +18,23 @@ public class ProductosService {
     
     private ProductosStore store = new ProductosStore();
     
-    public ProductosService () {}
+    public ProductosService () {
+    
+        Producto[] productos = new Producto[] {
+        
+            new Producto(0, 1600, 10, "Jugo de arandanos", "", "900000000000"),
+            new Producto(0, 700, 20, "Leche largavida", "", "900000000010"),
+            new Producto(0, 2500, 10, "Jugo de naranjas", "", "900000000020"),
+            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "900000000030"),
+            new Producto(0, 1500, 10, "Monster energy", "", "900000000080"),
+        
+        }; 
+    
+        for (int i = 0;i < productos.length; i++){
+            this.store.Registrar(productos[i]);
+        }
+        
+    }
     
     private void validateProducto(Producto producto) throws ValidationException {
         if (producto.getCantidadInicial() < 0)
@@ -30,6 +46,16 @@ public class ProductosService {
         if (producto.getTitulo() == "")
             throw new ValidationException("El titulo del producto no puede ser nulo.");
         
+    }
+    
+    public Producto fetch(String codigo) throws StoreException {
+        try {
+            Producto request = new Producto();
+            request.setCodigo(codigo);
+            return this.store.Obtener(request);
+        } catch (Exception ex) {
+            throw new StoreException("");
+        }
     }
     
     public void add(Producto producto) throws ValidationException, StoreException {

@@ -9,6 +9,7 @@ import VentasService.Venta;
 import Utils.Validator;
 import Exceptions.ValidationException;
 import Exceptions.StoreException;
+import ProductosService.Producto;
 import java.util.List;
 
 /**
@@ -34,6 +35,16 @@ public class VentasService {
         
         if (venta.getMonto() < 0.0)
             throw new ValidationException("El monto no puede ser negativo.");
+    }
+    
+    private float calculateIva(float amount, float ivaPercentage) {
+        return amount * (float) (ivaPercentage / 100.0);
+    }
+    
+    public ProductoDetalle createDetalle(Producto found, int cantidad, float ivaPercentage) {
+        float subtotal = found.getPrecioUnitario() * cantidad;
+        float total = subtotal + this.calculateIva(subtotal, ivaPercentage);
+        return new ProductoDetalle(found, cantidad, 0, subtotal, ivaPercentage, total);
     }
     
     public void add(Venta venta) throws ValidationException, StoreException {
