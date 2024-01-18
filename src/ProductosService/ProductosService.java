@@ -22,11 +22,11 @@ public class ProductosService {
     
         Producto[] productos = new Producto[] {
         
-            new Producto(0, 1600, 10, "Jugo de arandanos", "", "900000000000"),
-            new Producto(0, 700, 20, "Leche largavida", "", "900000000010"),
-            new Producto(0, 2500, 10, "Jugo de naranjas", "", "900000000020"),
-            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "900000000030"),
-            new Producto(0, 1500, 10, "Monster energy", "", "900000000080"),
+            new Producto(0, 1600, 10, "Jugo de arandanos", "", "0"),
+            new Producto(0, 700, 20, "Leche largavida", "", "1"),
+            new Producto(0, 2500, 10, "Jugo de naranjas", "", "2"),
+            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "3"),
+            new Producto(0, 1500, 10, "Monster energy", "", "4"),
         
         }; 
     

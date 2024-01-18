@@ -29,14 +29,13 @@ public class Sistema extends javax.swing.JFrame {
 //    ClienteDAO client = new ClienteDAO();
 //    MockClienteDAO client = new MockClienteDAO();
     
-    // Constant to specify vat percentage
-    public static final float PORCENTAJE_IVA = 21;
-    
     DefaultTableModel modelo = new DefaultTableModel();
     
     // Servicio para manejar la creacion y obtencion de ventas
     VentasService ventasService = new VentasService();
     ProductosService productosService = new ProductosService();
+    
+    Venta tmpVenta = new Venta();
 
     public Sistema() {
         initComponents();
@@ -106,6 +105,11 @@ public class Sistema extends javax.swing.JFrame {
         TableVenta.setModel(modelo);
     }
     
+    public void LoadDetalle(List<ProductoDetalle> detalle) {
+        ClearTableVenta();
+        detalle.forEach(prod -> AddDetalleProducto(prod));
+    }
+    
     public void AddDetalleProducto(ProductoDetalle prodDetalle) {
         Object[] toAdd = prodDetalle.toObject();
         
@@ -130,6 +134,9 @@ public class Sistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
+        jPanel8 = new javax.swing.JPanel();
+        list1 = new java.awt.List();
         jPanel2 = new javax.swing.JPanel();
         menuVentasBtn = new javax.swing.JButton();
         menuProductosBtn = new javax.swing.JButton();
@@ -228,6 +235,27 @@ public class Sistema extends javax.swing.JFrame {
         jTextField26 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
 
+        jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jFrame1.getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -292,6 +320,11 @@ public class Sistema extends javax.swing.JFrame {
         jLabel5.setText("Cantidad");
 
         btnEliminarventa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/eliminar.png"))); // NOI18N
+        btnEliminarventa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarventaActionPerformed(evt);
+            }
+        });
 
         TableVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -390,7 +423,9 @@ public class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkboxAplicaIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(LabelTotal))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(LabelTotal)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -403,9 +438,9 @@ public class Sistema extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel5))
                         .addGap(0, 2, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCantidadVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCantidadVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -1025,6 +1060,7 @@ public class Sistema extends javax.swing.JFrame {
     private void menuVentasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVentasBtnActionPerformed
         // TODO add your handling code here:
         principalPanel.setSelectedIndex(0);
+        this.tmpVenta = new Venta();
     }//GEN-LAST:event_menuVentasBtnActionPerformed
 
     private void menuProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductosBtnActionPerformed
@@ -1154,10 +1190,15 @@ public class Sistema extends javax.swing.JFrame {
 
     private void btnSaveSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSaleActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Not implemented");
     }//GEN-LAST:event_btnSaveSaleActionPerformed
 
     private void btnAddProductToSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductToSaleActionPerformed
         // TODO add your handling code here:
+        
+        // Cuando agregamos dos veces el mismo producto deberiamos agrupar las dos entradas
+        // en lugar de que aparezcan repetidos
+        
         int cantidad;
         String codigoBarras = txtCodigoProducto.getText();
         
@@ -1170,9 +1211,16 @@ public class Sistema extends javax.swing.JFrame {
         try {
             Producto prodFound = this.productosService.fetch(codigoBarras);
             
-            ProductoDetalle detalle = this.ventasService.createDetalle(prodFound, cantidad, PORCENTAJE_IVA);
+            ProductoDetalle detalle = this.ventasService.createDetalle(prodFound, cantidad);
             
             this.AddDetalleProducto(detalle);
+            
+            // Add detail to tmp sale
+            this.tmpVenta.addDetalle(detalle);
+            
+            LabelTotal.setText(String.valueOf(this.tmpVenta.getTotal()));
+            
+            ClearVentaInputs();
             
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -1180,6 +1228,51 @@ public class Sistema extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAddProductToSaleActionPerformed
 
+    public void ClearVentaInputs() {
+        txtCodigoProducto.setText("");
+        txtCantidadVenta.setText("");
+    }
+    
+    private void btnEliminarventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarventaActionPerformed
+        // TODO add your handling code here:
+        
+        String codigoBarras = txtCodigoProducto.getText();
+        
+        if (codigoBarras.equals("")){
+            return;
+        }
+        
+        int cantidad;
+        
+        if (!txtCantidadVenta.getText().equals("")){
+            cantidad = Integer.parseInt(txtCantidadVenta.getText());
+        } else {
+            cantidad = 1;
+        }
+        
+        for (int i = 0; i < cantidad; i++){
+            this.tmpVenta = this.ventasService.removeProductoFromDetalle(this.tmpVenta, codigoBarras);
+        }
+        
+//        AddDetalleProducto(this.tmpVenta.getDetalle());
+        this.LoadDetalle(this.tmpVenta.getDetalle());
+        
+        // Update amount
+        String valorVenta = String.valueOf(this.tmpVenta.getTotal());
+        if (valorVenta.equals("0")) {
+            LabelTotal.setText("----");
+        } else {
+            LabelTotal.setText(valorVenta);
+        }
+        
+        ClearVentaInputs();
+    }//GEN-LAST:event_btnEliminarventaActionPerformed
+
+    public void ClearTableVenta() {
+        DefaultTableModel dtm = (DefaultTableModel) TableVenta.getModel();
+        dtm.setRowCount(0);
+    }
+    
     //
             
     /**
@@ -1248,6 +1341,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1282,6 +1376,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1292,6 +1387,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
+    private java.awt.List list1;
     private javax.swing.JButton menuProductosBtn;
     private javax.swing.JButton menuVentasBtn;
     private javax.swing.JTabbedPane principalPanel;

@@ -6,6 +6,8 @@ package VentasService;
 
 import Modelo.BaseTableModel;
 import ProductosService.Producto;
+import VentasService.ProductoDetalle;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,52 +18,84 @@ import java.util.List;
  */
 public class Venta implements BaseTableModel {
     private int id;
-    private float monto;
-    private List<Producto> productos;
+    private float total = 0;
+    private List<ProductoDetalle> detalle;
     private String compradorDNI;
     // TODO: Agregar clase para la informacion del pago
 //    private PaymentInformation paymentInfo;
     
     public Venta() {
         id = 0;
-        monto = 0;
+        total = 0;
         compradorDNI = "";
+        detalle = new ArrayList<>();
     }
     
-    public Venta(int id, int monto, String compradorDNI) {
+    public Venta(int id, int total, String compradorDNI, List<ProductoDetalle> detalle) {
         this.id = id;
-        this.monto = monto;
+        this.total = total;
         this.compradorDNI = compradorDNI;
+        this.detalle = detalle;
     }
     
-    public void addProduct(Producto prod) {
-        this.productos.add(prod);
+    /////// ESTA LOGICA DEBERIA ESTAR EN VENTAS-SERVICE
+    public void addDetalle(ProductoDetalle prod) {
+        this.detalle.add(prod);
+        this.total += prod.getTotal();
     }
     
-    public void removeProduct(String codigo) {
-        int indexToRemove = -1;
-        
-        for (int i = 0; i < this.productos.size(); i++){
-            if (this.productos.get(i).getCodigo() == codigo){
-                indexToRemove = i;
-                break;
-            }
-        }
-        
-        this.productos.remove(indexToRemove);
+//    public void removeProduct(String codigo) {
+//        int indexToRemove = -1;
+//        boolean flagRemove = false;
+//        
+//        // Search across all detail
+//        for (int i = 0; i < this.detalle.size(); i++){
+//            
+//            ProductoDetalle pDetalle = this.detalle.get(i);
+//            
+//            // Check if code is equals
+//            if (pDetalle.getCodigo().equals(codigo)){
+//                
+//                // If quantity is greater than 1 then we must only decrease quantity
+//                // but not remove element
+//                if (pDetalle.getCantidad() > 1) {
+//                    pDetalle.setCantidad(pDetalle.getCantidad() - 1);
+//                    break;
+//                }
+//                
+//                indexToRemove = i;
+//                flagRemove = true;
+//                break;
+//            }
+//            
+//        }
+//        
+//        if (flagRemove) {
+//            this.total -= this.detalle.get(indexToRemove).getTotal();
+//            this.detalle.remove(indexToRemove);
+//        } 
+//    }
+    
+    /////////////////////////////////////////////////////////////////////
+
+    public List<ProductoDetalle> getDetalle() {
+        return this.detalle;
     }
     
+    public void setDetalle(List<ProductoDetalle> detalle) {
+        this.detalle = detalle;
+    }
     
     public int getId() {
         return id;
     }
 
-    public void setMonto(float monto){
-        this.monto = monto;
+    public void setTotal(float total){
+        this.total = total;
     }
     
-    public float getMonto() {
-        return this.monto;
+    public float getTotal() {
+        return this.total;
     }
     
     public void setCompradorDni(String dni) {
@@ -80,12 +114,13 @@ public class Venta implements BaseTableModel {
     public Object[] toArray() {
         return new Object[]{
             this.id,
-            this.monto,
+            this.total,
+            this.detalle,
             this.compradorDNI
         };
     }
     
     public static final String[] getColumnNames() {
-        return new String[]{ "ID", "Monto", "Comprador DNI" };
+        return new String[]{ "Referencia", "Total", "Detalle", "Comprador DNI" };
     }
 }

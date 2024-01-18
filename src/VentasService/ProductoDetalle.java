@@ -50,6 +50,10 @@ public class ProductoDetalle {
         return producto;
     }
 
+    public String getCodigo() {
+        return this.productoCodigo;
+    }
+    
     public void setProducto(Producto producto) {
         this.producto = producto;
         this.productoCodigo = producto.getCodigo();
@@ -61,6 +65,9 @@ public class ProductoDetalle {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+        float uPrice = this.producto.getPrecioUnitario();
+        
+        
     }
 
     public int getDescuento() {

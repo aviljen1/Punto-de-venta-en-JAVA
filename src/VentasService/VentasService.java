@@ -10,6 +10,7 @@ import Utils.Validator;
 import Exceptions.ValidationException;
 import Exceptions.StoreException;
 import ProductosService.Producto;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ import java.util.List;
 public class VentasService {
     private VentasStore store = new VentasStore();
     
+    public static final float IVA_PERCENTAGE = 21;
+    
     // Agregar logica de negocio y validacion de informacion
     
     public VentasService() {
@@ -33,18 +36,77 @@ public class VentasService {
         if (!Validator.isDniValid(venta.getCompradorDni()))
             throw new ValidationException("El dni no es valido.");
         
-        if (venta.getMonto() < 0.0)
+        if (venta.getTotal() < 0.0)
             throw new ValidationException("El monto no puede ser negativo.");
     }
     
-    private float calculateIva(float amount, float ivaPercentage) {
-        return amount * (float) (ivaPercentage / 100.0);
+    private float calculateIva(float amount) {
+        return amount * (float) (IVA_PERCENTAGE / 100.0);
     }
     
-    public ProductoDetalle createDetalle(Producto found, int cantidad, float ivaPercentage) {
+    public ProductoDetalle createDetalle(Producto found, int cantidad) {
         float subtotal = found.getPrecioUnitario() * cantidad;
-        float total = subtotal + this.calculateIva(subtotal, ivaPercentage);
-        return new ProductoDetalle(found, cantidad, 0, subtotal, ivaPercentage, total);
+        float total = subtotal + this.calculateIva(subtotal);
+        return new ProductoDetalle(found, cantidad, 0, subtotal, IVA_PERCENTAGE, total);
+    }
+    
+    public void addDetalleToVenta(Venta venta, ProductoDetalle detalle) {
+        venta.getDetalle().add(detalle);
+        venta.setTotal(venta.getTotal() + detalle.getTotal());
+    }
+    
+    public Venta removeProductoFromDetalle(Venta venta, String codigo) {
+    
+        List<ProductoDetalle> detalleList = venta.getDetalle();
+        
+        int indexToRemove = -1;
+        boolean flagRemove = false;
+        
+        // Search across all detail
+        for (int i = 0; i < detalleList.size(); i++){
+            
+            ProductoDetalle pDetalle = detalleList.get(i);
+            
+            // Check if code is equals
+            if (pDetalle.getCodigo().equals(codigo)){
+                
+                // If quantity is greater than 1 then we must only decrease quantity
+                // but not remove element
+                if (pDetalle.getCantidad() > 1) {
+                    pDetalle.setCantidad(pDetalle.getCantidad() - 1);
+                    
+                    // Must re calculate total and subtotal
+                    float newTotal = pDetalle.getTotal() - 
+                            (pDetalle.getProducto().getPrecioUnitario() + 
+                            this.calculateIva(pDetalle.getProducto().getPrecioUnitario())
+                            );
+                    
+                    float newSubtotal = pDetalle.getSubtotal() - pDetalle.getProducto().getPrecioUnitario();
+                    
+                    pDetalle.setSubtotal(newSubtotal);
+                    pDetalle.setTotal(newTotal);
+                    
+                    // Also sale total
+                    venta.setTotal(venta.getTotal() - newTotal);
+                    
+                    break;
+                }
+                
+                indexToRemove = i;
+                flagRemove = true;
+                break;
+            }
+            
+        }
+        
+        if (flagRemove) {
+            venta.setTotal(venta.getTotal() - detalleList.get(indexToRemove).getTotal());
+            detalleList.remove(indexToRemove);
+            venta.setDetalle(detalleList);
+        }
+    
+        
+        return venta;
     }
     
     public void add(Venta venta) throws ValidationException, StoreException {
