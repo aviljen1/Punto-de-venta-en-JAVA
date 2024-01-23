@@ -18,8 +18,20 @@ import ProductosService.Producto;
 import ProductosService.ProductosService;
 import VentasService.ProductoDetalle;
 import VentasService.Venta;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import java.util.ArrayList;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -34,6 +46,8 @@ public class Sistema extends javax.swing.JFrame {
     // Servicio para manejar la creacion y obtencion de ventas
     VentasService ventasService = new VentasService();
     ProductosService productosService = new ProductosService();
+    JFrame modalFrame = new JFrame();
+    JDialog modalDialog;
     
     Venta tmpVenta = new Venta();
 
@@ -137,6 +151,16 @@ public class Sistema extends javax.swing.JFrame {
         jFrame1 = new javax.swing.JFrame();
         jPanel8 = new javax.swing.JPanel();
         list1 = new java.awt.List();
+        PaymentMethodPanel = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel9 = new javax.swing.JPanel();
+        paymentCashMonto = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        paymentCashPago = new javax.swing.JTextField();
+        paymentCashVuelto = new javax.swing.JTextField();
+        btnCashConfirm = new java.awt.Button();
         jPanel2 = new javax.swing.JPanel();
         menuVentasBtn = new javax.swing.JButton();
         menuProductosBtn = new javax.swing.JButton();
@@ -255,6 +279,94 @@ public class Sistema extends javax.swing.JFrame {
         );
 
         jFrame1.getContentPane().add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 300));
+
+        paymentCashMonto.setEnabled(false);
+        paymentCashMonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentCashMontoActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jLabel2.setText("Monto");
+
+        jLabel4.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jLabel4.setText("Su pago");
+
+        jLabel6.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        jLabel6.setText("Vuelto");
+
+        paymentCashVuelto.setEnabled(false);
+
+        btnCashConfirm.setActionCommand("");
+        btnCashConfirm.setBackground(new java.awt.Color(102, 102, 255));
+        btnCashConfirm.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        btnCashConfirm.setForeground(new java.awt.Color(255, 255, 255));
+        btnCashConfirm.setLabel("Confirmar");
+        btnCashConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCashConfirmActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23)
+                        .addComponent(paymentCashVuelto))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(23, 23, 23)
+                        .addComponent(paymentCashPago, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(paymentCashMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(95, Short.MAX_VALUE))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnCashConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paymentCashMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(paymentCashPago))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paymentCashVuelto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(btnCashConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
+        );
+
+        jTabbedPane1.addTab("Efectivo", jPanel9);
+
+        javax.swing.GroupLayout PaymentMethodPanelLayout = new javax.swing.GroupLayout(PaymentMethodPanel);
+        PaymentMethodPanel.setLayout(PaymentMethodPanelLayout);
+        PaymentMethodPanelLayout.setHorizontalGroup(
+            PaymentMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+        PaymentMethodPanelLayout.setVerticalGroup(
+            PaymentMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1187,10 +1299,44 @@ public class Sistema extends javax.swing.JFrame {
     private void btnGenerarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarVentaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
-
+    
     private void btnSaveSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSaleActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Not implemented");
+        
+        modalFrame.setAlwaysOnTop(true); //Esto nos permite que el jFrame sea un modal
+        modalFrame.setLocationRelativeTo(null);
+        modalFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        modalFrame.setVisible(true);
+        
+//        modalDialog = new JDialog(modalFrame, "Seleccionar metodo de pago", true);
+        
+        paymentCashMonto.setText(this.tmpVenta.getTotal() + "");
+        
+        modalFrame.getContentPane().add(PaymentMethodPanel);
+        modalFrame.pack();
+        modalFrame.setVisible(true);
+        
+        paymentCashPago.addKeyListener(new KeyListener() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                Float pago = Float.parseFloat(paymentCashPago.getText());
+
+                float diff = tmpVenta.getTotal() - pago;
+
+                if (diff < 0) {
+                    paymentCashPago.setBorder(new LineBorder(Color.RED, 2));
+                    return;
+                }
+
+                paymentCashPago.setBorder(new LineBorder(Color.GRAY, 1));
+
+                paymentCashVuelto.setText(diff + "");
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {}
+        });
     }//GEN-LAST:event_btnSaveSaleActionPerformed
 
     private void btnAddProductToSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProductToSaleActionPerformed
@@ -1225,7 +1371,6 @@ public class Sistema extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        
     }//GEN-LAST:event_btnAddProductToSaleActionPerformed
 
     public void ClearVentaInputs() {
@@ -1267,6 +1412,16 @@ public class Sistema extends javax.swing.JFrame {
         
         ClearVentaInputs();
     }//GEN-LAST:event_btnEliminarventaActionPerformed
+
+    private void paymentCashMontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentCashMontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paymentCashMontoActionPerformed
+
+    private void btnCashConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashConfirmActionPerformed
+        // TODO add your handling code here:
+        modalFrame.setVisible(false);
+        
+    }//GEN-LAST:event_btnCashConfirmActionPerformed
 
     public void ClearTableVenta() {
         DefaultTableModel dtm = (DefaultTableModel) TableVenta.getModel();
@@ -1313,12 +1468,14 @@ public class Sistema extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelTotal;
+    private javax.swing.JPanel PaymentMethodPanel;
     private javax.swing.JTable TableCliente;
     private javax.swing.JTable TableProducto;
     private javax.swing.JTable TableProveedor;
     private javax.swing.JTable TableVenta;
     private javax.swing.JTable TableVentas;
     private javax.swing.JButton btnAddProductToSale;
+    private java.awt.Button btnCashConfirm;
     private javax.swing.JButton btnEditarCliente;
     private javax.swing.JButton btnEditarProveedor;
     private javax.swing.JButton btnEditarpro;
@@ -1352,6 +1509,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1366,7 +1524,9 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1377,11 +1537,13 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
@@ -1390,6 +1552,9 @@ public class Sistema extends javax.swing.JFrame {
     private java.awt.List list1;
     private javax.swing.JButton menuProductosBtn;
     private javax.swing.JButton menuVentasBtn;
+    private javax.swing.JTextField paymentCashMonto;
+    private javax.swing.JTextField paymentCashPago;
+    private javax.swing.JTextField paymentCashVuelto;
     private javax.swing.JTabbedPane principalPanel;
     private javax.swing.JTextField txtCantPro;
     private javax.swing.JTextField txtCantidadVenta;
