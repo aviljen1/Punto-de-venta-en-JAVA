@@ -16,9 +16,13 @@ public class Producto implements BaseTableModel {
     private int cantidadInicial;
     private String titulo;
     private String descripcion = null;
+
     private String codigo;
+
+    private String proveedor;
+
     
-    // TODO: Convertir en enum
+    // TODO: Convertir en enum (ni idea)
     private String categoria;
     
     public Producto() {
@@ -27,12 +31,12 @@ public class Producto implements BaseTableModel {
         cantidadInicial = 0;
         titulo = "";
         descripcion = "";
+
         codigo = "";
     }
     
-    public static final String[] getColumnNames() {
-        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "Descripcion", "Categoria", "Codigo"};
-    }
+
+    
     
     @Override
     public String toString() {
@@ -49,18 +53,43 @@ public class Producto implements BaseTableModel {
             this.descripcion,
             this.categoria,
             this.codigo
+                //agregar los campos nuevos
         };
         
         return values;
     }
     
     public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo) {
+
+        proveedor = "";
+        categoria="";
+    }
+    
+    public String[] getColumnNames() {
+        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion", "proveedor","categoria" };
+    }
+    
+    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String proveedor, String categoria, String codigo) {
+       
         this.id = id;
         this.precioUnitario = precioUnitario;
         this.cantidadInicial = cantidadInicial;
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.codigo = codigo;
+
+        this.codigo = codigo; //Esto es para el codigo de barra Ej 12312312312312312312423346544324124123
+
+        this.proveedor=proveedor;
+        this.categoria=categoria;
+    }
+
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+
     }
     
     public int getId() {
