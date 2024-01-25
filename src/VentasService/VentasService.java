@@ -12,6 +12,7 @@ import Exceptions.StoreException;
 import ProductosService.Producto;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class VentasService {
     private VentasStore store = new VentasStore();
+    private BillerConnector billerConnector = new BillerConnector();
     
     public static final float IVA_PERCENTAGE = 21;
     
@@ -33,8 +35,10 @@ public class VentasService {
     }
     
     private void validateVenta(Venta venta) throws ValidationException, StoreException {
-        if (!Validator.isDniValid(venta.getCompradorDni()))
-            throw new ValidationException("El dni no es valido.");
+        // No se van a guardar datos del cliente en las ventas a
+        // excepcion de los pagos con tarjetas
+//        if (!Validator.isDniValid(venta.getCompradorDni()))
+//            throw new ValidationException("El dni no es valido.");
         
         if (venta.getTotal() < 0.0)
             throw new ValidationException("El monto no puede ser negativo.");
@@ -105,16 +109,22 @@ public class VentasService {
             venta.setDetalle(detalleList);
         }
     
-        
         return venta;
     }
     
-    public void add(Venta venta) throws ValidationException, StoreException {
+    public void add(Venta venta, String method) throws ValidationException, StoreException {
         
         this.validateVenta(venta);
         
+        UUID uuid = UUID.randomUUID();
+        
         // Procesar pago
+        PaymentInformation paymentInfo = new PaymentInformation(method, "ARS", venta.getTotal(), uuid.toString(), "Argentina");
+        paymentInfo.processPayment();
+        
         // Enviar informacion para facturacion etc
+        venta.setPaymentInformation(paymentInfo);
+        billerConnector.createInvoice();
         
         try {
             this.store.Registrar(venta);

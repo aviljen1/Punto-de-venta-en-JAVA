@@ -161,6 +161,10 @@ public class Sistema extends javax.swing.JFrame {
         paymentCashPago = new javax.swing.JTextField();
         paymentCashVuelto = new javax.swing.JTextField();
         btnCashConfirm = new java.awt.Button();
+        paymentCashErrorLabel = new javax.swing.JLabel();
+        modalProgressBar = new javax.swing.JPanel();
+        progressBarModal = new javax.swing.JProgressBar();
+        jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         menuVentasBtn = new javax.swing.JButton();
         menuProductosBtn = new javax.swing.JButton();
@@ -299,7 +303,6 @@ public class Sistema extends javax.swing.JFrame {
 
         paymentCashVuelto.setEnabled(false);
 
-        btnCashConfirm.setActionCommand("");
         btnCashConfirm.setBackground(new java.awt.Color(102, 102, 255));
         btnCashConfirm.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         btnCashConfirm.setForeground(new java.awt.Color(255, 255, 255));
@@ -310,29 +313,38 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        paymentCashErrorLabel.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnCashConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23)
-                        .addComponent(paymentCashVuelto))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(23, 23, 23)
-                        .addComponent(paymentCashPago, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(paymentCashMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(95, Short.MAX_VALUE))
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCashConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(23, 23, 23)
+                                        .addComponent(paymentCashVuelto))
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(paymentCashMonto, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel9Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(23, 23, 23)
+                                        .addComponent(paymentCashPago, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGap(146, 146, 146)
+                                .addComponent(paymentCashErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 60, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -346,11 +358,13 @@ public class Sistema extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(paymentCashPago))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(paymentCashErrorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(paymentCashVuelto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(btnCashConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -365,7 +379,31 @@ public class Sistema extends javax.swing.JFrame {
         );
         PaymentMethodPanelLayout.setVerticalGroup(
             PaymentMethodPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Registrando operacion, aguarde...");
+
+        javax.swing.GroupLayout modalProgressBarLayout = new javax.swing.GroupLayout(modalProgressBar);
+        modalProgressBar.setLayout(modalProgressBarLayout);
+        modalProgressBarLayout.setHorizontalGroup(
+            modalProgressBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(modalProgressBarLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addGroup(modalProgressBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(progressBarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
+        );
+        modalProgressBarLayout.setVerticalGroup(
+            modalProgressBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modalProgressBarLayout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(progressBarModal, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1300,35 +1338,53 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
     
-    private void btnSaveSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSaleActionPerformed
-        
+    private void initializeModal() {
         modalFrame.setAlwaysOnTop(true); //Esto nos permite que el jFrame sea un modal
         modalFrame.setLocationRelativeTo(null);
         modalFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         modalFrame.setVisible(true);
+    }
+    
+    private void btnSaveSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveSaleActionPerformed
         
-//        modalDialog = new JDialog(modalFrame, "Seleccionar metodo de pago", true);
+        initializeModal();
         
+        // Casteo a string
         paymentCashMonto.setText(this.tmpVenta.getTotal() + "");
         
+        // Inicializamos el modal
         modalFrame.getContentPane().add(PaymentMethodPanel);
         modalFrame.pack();
         modalFrame.setVisible(true);
         
+        // Esto se ejecuta cada vez que se ingresa informacion en el textbox
         paymentCashPago.addKeyListener(new KeyListener() {
             @Override
             public void keyReleased(KeyEvent e) {
+                
+                if (paymentCashPago.getText().equals("")) {
+                    return;
+                }
+                
+                paymentCashErrorLabel.setText("");
+                paymentCashPago.setBorder(new LineBorder(Color.GRAY, 1));
+                
                 Float pago = Float.parseFloat(paymentCashPago.getText());
 
-                float diff = tmpVenta.getTotal() - pago;
+                if (pago < tmpVenta.getTotal()) {
+                    paymentCashErrorLabel.setForeground(Color.RED);
+                    paymentCashErrorLabel.setText("El pago es menor al monto a pagar.");
+                    paymentCashPago.setBorder(new LineBorder(Color.RED, 2));
+                    return;
+                }
+                
+                float diff = pago - tmpVenta.getTotal();
 
                 if (diff < 0) {
                     paymentCashPago.setBorder(new LineBorder(Color.RED, 2));
                     return;
                 }
-
-                paymentCashPago.setBorder(new LineBorder(Color.GRAY, 1));
-
+                
                 paymentCashVuelto.setText(diff + "");
             }
 
@@ -1421,6 +1477,41 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
         modalFrame.setVisible(false);
         
+        initializeModal();
+        
+        // Casteo a string
+        paymentCashMonto.setText(this.tmpVenta.getTotal() + "");
+        
+        // Inicializamos el modal
+        modalFrame.getContentPane().add(modalProgressBar);
+        modalFrame.pack();
+        modalFrame.setVisible(true);
+        
+        Thread newThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ventasService.add(tmpVenta, "Cash");
+                } catch (Exception ex) {
+                    // Handle
+                }
+            }
+        });
+        
+        newThread.run();
+        
+        // TODO: La barra de progreso no se actualiza y se ve todo negro
+        // fixme
+        progressBarModal.setIndeterminate(true);
+        try{
+            newThread.join();
+        } catch (Exception ex) {
+        
+        }
+        
+        modalFrame.setVisible(false);
+        
+        // Limpiar tabla e inputs
     }//GEN-LAST:event_btnCashConfirmActionPerformed
 
     public void ClearTableVenta() {
@@ -1527,6 +1618,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -1552,10 +1644,13 @@ public class Sistema extends javax.swing.JFrame {
     private java.awt.List list1;
     private javax.swing.JButton menuProductosBtn;
     private javax.swing.JButton menuVentasBtn;
+    private javax.swing.JPanel modalProgressBar;
+    private javax.swing.JLabel paymentCashErrorLabel;
     private javax.swing.JTextField paymentCashMonto;
     private javax.swing.JTextField paymentCashPago;
     private javax.swing.JTextField paymentCashVuelto;
     private javax.swing.JTabbedPane principalPanel;
+    private javax.swing.JProgressBar progressBarModal;
     private javax.swing.JTextField txtCantPro;
     private javax.swing.JTextField txtCantidadVenta;
     private javax.swing.JTextField txtCodigoPro;

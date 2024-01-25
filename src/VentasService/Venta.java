@@ -22,7 +22,7 @@ public class Venta implements BaseTableModel {
     private List<ProductoDetalle> detalle;
     private String compradorDNI;
     // TODO: Agregar clase para la informacion del pago
-//    private PaymentInformation paymentInfo;
+    private PaymentInformation paymentInfo;
     
     public Venta() {
         id = 0;
@@ -42,6 +42,10 @@ public class Venta implements BaseTableModel {
     public void addDetalle(ProductoDetalle prod) {
         this.detalle.add(prod);
         this.total += prod.getTotal();
+    }
+    
+    public void setPaymentInformation(PaymentInformation paymentInfo) {
+        this.paymentInfo = paymentInfo;
     }
     
 //    public void removeProduct(String codigo) {
