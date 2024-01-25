@@ -105,23 +105,7 @@ public class Sistema extends javax.swing.JFrame {
 
         objToAdd.forEach(obj -> modelo.addRow(obj));
 
-        Object[] ob = new Object[7];
-        for (int i = 0; i < productos.size(); i++) {
-            ob[0] = productos.get(i).getId();
-            ob[1] = productos.get(i).getPrecioUnitario();
-            ob[2] = productos.get(i).getCantidadInicial();  
-            ob[3] = productos.get(i).getTitulo();
-            ob[4] = productos.get(i).getDescripcion();
-            ob[5] = productos.get(i).getProveedor();
-            ob[6] = productos.get(i).getCategoria();
-          
-            
-            
- 
-            modelo.addRow(ob);
-        }
-
-        TableProducto.setModel(modelo);
+        TableProducto.setModel(modelo);        
     }
     
     public void LoadVentas() {
@@ -1269,64 +1253,12 @@ public class Sistema extends javax.swing.JFrame {
 
     private void menuVentasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVentasBtnActionPerformed
         // TODO add your handling code here:
-<<<<<<< Updated upstream
+
         principalPanel.setSelectedIndex(0);
         this.tmpVenta = new Venta();
     }//GEN-LAST:event_menuVentasBtnActionPerformed
-=======
-    }                                               
 
-    private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        // TODO add your handling code here:
-        try {
-            Cliente cl = new Cliente();
-            //cl.setId(Integer.parseInt(txtIdCliente.getText()));
-            cl.setDni(txtDniCliente.getText());
-            cl.setNombre(txtNombreCliente.getText());
-            cl.setTelefono(txtTelefonoCliente.getText());
-            cl.setDireccion(txtDireccionCliente.getText());
-            cl.setRazon(txtRazonCliente.getText());
-            
-//            client.RegistrarCliente(cl);
-            LimpiarTable();
-            LimpiarCliente();
-            ListarCliente();
-
-            JOptionPane.showMessageDialog(null, "Cliente Resgistrado");
-            
-        } catch (ValidationException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }                                                 
-
-    private void txtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {                                              
-        // TODO add your handling code here:
-    }                                             
-
-    private void txtIdClienteActionPerformed(java.awt.event.ActionEvent evt) {                                             
-        // TODO add your handling code here:
-    }                                            
-
-    private void txtDireccionClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // TODO add your handling code here:
-    }                                                   
-
-    private void txtRazonClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-    }                                               
-
-    private void TableClienteMouseClicked(java.awt.event.MouseEvent evt) {                                          
-        // TODO add your handling code here:
-        int fila = TableCliente.rowAtPoint(evt.getPoint());
-        txtIdCliente.setText(TableCliente.getValueAt(fila, 0).toString());
-        txtDniCliente.setText(TableCliente.getValueAt(fila, 1).toString());
-        txtNombreCliente.setText(TableCliente.getValueAt(fila, 2).toString());
-        txtTelefonoCliente.setText(TableCliente.getValueAt(fila, 3).toString());
-        txtDireccionCliente.setText(TableCliente.getValueAt(fila, 4).toString());
-        txtRazonCliente.setText(TableCliente.getValueAt(fila, 5).toString());
-    }                                         
-
-    private void btnEliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+    // TODO add your handling code here:
 //        // TODO add your handling code here:
 //        if (!"".equals(txtIdCliente.getText())) {
 //            int pregunta = JOptionPane.showConfirmDialog(null, "Esta seguro de eliminar");
@@ -1338,9 +1270,6 @@ public class Sistema extends javax.swing.JFrame {
 //                ListarCliente();
 //            }
 //        }
-    }                                                  
-
-    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                 
 //        // TODO add your handling code here:
 //        if ("".equals(txtIdCliente.getText())) {
 //            JOptionPane.showMessageDialog(null, "seleccione una fila");
@@ -1362,103 +1291,56 @@ public class Sistema extends javax.swing.JFrame {
 //                JOptionPane.showMessageDialog(null, ex.getMessage());
 //            }
 //        }
-            
-    }                                                
-
-    private void btnNuevoClienteActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-        LimpiarCliente();
-    }                                               
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
          // JEN
         principalPanel.setSelectedIndex(0);
     }//GEN-LAST:event_jButton1ActionPerformed
->>>>>>> Stashed changes
+
 
     private void menuProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductosBtnActionPerformed
         // TODO add your handling code here:
         principalPanel.setSelectedIndex(5);
     }//GEN-LAST:event_menuProductosBtnActionPerformed
 
-<<<<<<< Updated upstream
-    private void btnSaveProductoActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
 
-        String codigo = txtCodigoPro.getText();
-        String descripcion = txtDesPro.getText();
-        int cantidad = Integer.parseInt(txtCantPro.getText());
-        float precio = Float.parseFloat(txtPrecioPro.getText());
-
-        Producto nuevoProducto = new Producto(0, precio, cantidad, descripcion, "", codigo);
-
-        // Hay que actualizar la tabla de productos
-
-        try {
-            this.productosService.add(nuevoProducto);
-            LimpiarTable();
-            LoadProductos();
-            // TODO: Hacer un flush de los controles que quedaron con informacion
-        } catch (Exception ex) {
-            // Manejar la excepcion y mostrar mensajes de error
-
-            // JOptionPane.showMessageDialog(null, ex.getMessage());
-            // Resaltar campos erroneos?
-            // Revisar Exceptions.ValidationException
-
-            // Hay que agregar a la excepcion los campos que fallaron y su motivo.
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-=======
-    
-        // Hay que actualizar la tabla de productos
-         // Capturar error de formato en números
-         // TODO: Hacer un flush de los controles que quedaron con informacion
-         // Resaltar campos erroneos?
-         // Revisar Exceptions.ValidationException
-
-        // Hay que agregar a la excepcion los campos que fallaron y su motivo.
-    
     
     private void btnSaveProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductoActionPerformed
         // JENI
     
         try {
 
-        cbxProveedorPro.addItem("Proveedor 1");
-        cbxProveedorPro.addItem("Proveedor 2");
-        cbxProveedorPro.addItem("Proveedor 3");
-          
-        int id = Integer.parseInt(txtCantIni.getText());
-        float precioUnitario = Float.parseFloat(txtPrecioUni.getText());
-        int cantidadInicial = Integer.parseInt(txtCantIni.getText());
-        String titulo = txtTit.getText();
-        String descripcion= txtDesc.getText();
-        String proveedor=cbxProveedorPro.getSelectedItem().toString();
-        String categoria=txtCat.getText();
-       
-       
-        
-       Producto nuevoProducto = new Producto(id, precioUnitario, cantidadInicial, titulo, descripcion, proveedor, categoria);
-     
-        this.productosService.add(nuevoProducto);
-        LimpiarTable();
-        ListarProductos();
-     
-        JOptionPane.showMessageDialog(null, "Producto Registrado");
-                
+            cbxProveedorPro.addItem("Proveedor 1");
+            cbxProveedorPro.addItem("Proveedor 2");
+            cbxProveedorPro.addItem("Proveedor 3");
 
-     
-      
-        
-       } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(null, "Error: Se ingresó un valor no numérico en un campo numérico.");
+            int id = Integer.parseInt(txtCantIni.getText());
+            float precioUnitario = Float.parseFloat(txtPrecioUni.getText());
+            int cantidadInicial = Integer.parseInt(txtCantIni.getText());
+            String titulo = txtTit.getText();
+            String descripcion= txtDesc.getText();
+            String proveedor=cbxProveedorPro.getSelectedItem().toString();
+            String categoria=txtCat.getText();
+            String codigo = ""; // ARREGLAME PLS
+
+
+
+            Producto nuevoProducto = new Producto(id, precioUnitario, cantidadInicial, titulo, descripcion, proveedor, categoria, codigo);
+
+            this.productosService.add(nuevoProducto);
+            LimpiarTable();
+            LoadProductos();
+
+            JOptionPane.showMessageDialog(null, "Producto Registrado");
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Error: Se ingresó un valor no numérico en un campo numérico.");
         
         } catch (InputMismatchException e) {
-        JOptionPane.showMessageDialog(null, "Error: Se ingresó un entero no un string.");
+            JOptionPane.showMessageDialog(null, "Error: Se ingresó un entero no un string.");
         } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         
        
@@ -1769,7 +1651,7 @@ public class Sistema extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescActionPerformed
 
->>>>>>> Stashed changes
+
     /**
      * @param args the command line arguments
      */
@@ -1899,24 +1781,24 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField paymentCashPago;
     private javax.swing.JTextField paymentCashVuelto;
     private javax.swing.JTabbedPane principalPanel;
-<<<<<<< Updated upstream
+
     private javax.swing.JProgressBar progressBarModal;
     private javax.swing.JTextField txtCantPro;
-=======
+
     private javax.swing.JTextField txtCantIni;
->>>>>>> Stashed changes
+
     private javax.swing.JTextField txtCantidadVenta;
     private javax.swing.JTextField txtCat;
     private javax.swing.JTextField txtCodigoPro;
-<<<<<<< Updated upstream
+
     private javax.swing.JTextField txtCodigoProducto;
     private javax.swing.JTextField txtDesPro;
-=======
+
     private javax.swing.JTextField txtCodigoVenta;
     private javax.swing.JTextField txtDesc;
     private javax.swing.JTextField txtDescripcionVenta;
     private javax.swing.JTextField txtDireccionCV;
->>>>>>> Stashed changes
+
     private javax.swing.JTextField txtDireccionCliente;
     private javax.swing.JTextField txtDireccionProveedor;
     private javax.swing.JTextField txtDniCliente;
@@ -1926,13 +1808,13 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombreCliente;
     private javax.swing.JTextField txtNombreClienteVenta;
     private javax.swing.JTextField txtNombreProveedor;
-<<<<<<< Updated upstream
+
     private javax.swing.JTextField txtPrecioPro;
-=======
+
     private javax.swing.JTextField txtPrecioUni;
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtRazonCV;
->>>>>>> Stashed changes
+
     private javax.swing.JTextField txtRazonCliente;
     private javax.swing.JTextField txtRazonProveedor;
     private javax.swing.JTextField txtRucProveedor;
