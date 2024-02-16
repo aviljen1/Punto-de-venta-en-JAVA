@@ -20,6 +20,8 @@ public class Producto implements BaseTableModel {
     private String codigo;
 
     private String proveedor;
+    
+    private boolean habilitado;
 
     
     // TODO: Convertir en enum (ni idea)

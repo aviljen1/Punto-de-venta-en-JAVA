@@ -19,7 +19,7 @@ public class ProductosService {
     private ProductosStore store = new ProductosStore();
     
     public ProductosService () {
-    
+        
         Producto[] productos = new Producto[] {
         
             new Producto(0, 1600, 10, "Jugo de arandanos", "", "Proveedor 1", "1", "0"),

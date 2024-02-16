@@ -7,7 +7,10 @@ package VentasService;
 import Modelo.BaseTableModel;
 import ProductosService.Producto;
 import VentasService.ProductoDetalle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,21 +23,18 @@ public class Venta implements BaseTableModel {
     private int id;
     private float total = 0;
     private List<ProductoDetalle> detalle;
-    private String compradorDNI;
     // TODO: Agregar clase para la informacion del pago
     private PaymentInformation paymentInfo;
     
     public Venta() {
         id = 0;
         total = 0;
-        compradorDNI = "";
         detalle = new ArrayList<>();
     }
     
     public Venta(int id, int total, String compradorDNI, List<ProductoDetalle> detalle) {
         this.id = id;
         this.total = total;
-        this.compradorDNI = compradorDNI;
         this.detalle = detalle;
     }
     
@@ -102,29 +102,26 @@ public class Venta implements BaseTableModel {
         return this.total;
     }
     
-    public void setCompradorDni(String dni) {
-        this.compradorDNI = dni;
-    }
-    
-    public String getCompradorDni() {
-        return this.compradorDNI;
-    }
-    
     public void setId(int id) {
         this.id = id;
     }
 
     @Override
     public Object[] toArray() {
+        
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        
         return new Object[]{
             this.id,
-            this.total,
-            this.detalle,
-            this.compradorDNI
+            this.paymentInfo.getAmount(),
+            df.format(new Date(this.paymentInfo.getTimestamp())),
+            this.paymentInfo.getCurrency(),
+            this.paymentInfo.getRef(),
+            this.paymentInfo.getLocation()
         };
     }
     
     public static final String[] getColumnNames() {
-        return new String[]{ "Referencia", "Total", "Detalle", "Comprador DNI" };
+        return new String[]{ "ID", "TOTAL", "FECHA", "MONEDA", "REFERENCIA", "LOCALIZACION" };
     }
 }

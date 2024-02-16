@@ -15,12 +15,60 @@ import VentasService.PaymentProcessor.PaymentProcessor;
  */
 public class PaymentInformation {
     
-    private int timestamp;
+    private long timestamp;
     
     private String currency;
     private float amount;
     private String ref;
     private String location;
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public PaymentProcessor getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(PaymentProcessor processor) {
+        this.processor = processor;
+    }
     
     /**
      TODO:
@@ -32,7 +80,7 @@ public class PaymentInformation {
     private PaymentProcessor processor;
     
     public PaymentInformation(String method, String currency, float amount, String ref, String location) {
-        this.timestamp = (int) Instant.now().toEpochMilli();
+        this.timestamp = Instant.now().toEpochMilli();
         
         this.currency = currency;
         this.amount = amount;
@@ -74,6 +122,11 @@ public class PaymentInformation {
         }
         
         return this.processor.processPayment();
+    }
+    
+    @Override
+    public String toString() {
+        return ref + " " + location + " " + amount + " " + currency;
     }
     
 }
