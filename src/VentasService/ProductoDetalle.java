@@ -30,6 +30,15 @@ public class ProductoDetalle {
         this.total = total;
     }
     
+    @Override
+    public boolean equals(Object obj) {
+    
+        // To use contains
+        ProductoDetalle pd2 = (ProductoDetalle) obj;
+        
+        return this.productoCodigo.equals(pd2.getCodigo());
+    }
+    
     public static final String[] getColumnNames() {
         return new String[]{ "Codigo", "Producto", "Cantidad", "Descuento", "Subtotal", "Iva", "Total"};
     }
@@ -102,4 +111,10 @@ public class ProductoDetalle {
         this.total = total;
     }
     
+    public void add(ProductoDetalle detalle) {
+        this.cantidad += detalle.cantidad;
+        this.subtotal += detalle.subtotal;
+        this.iva += detalle.iva;
+        this.total += detalle.total;
+    }
 }

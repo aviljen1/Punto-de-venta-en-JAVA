@@ -480,6 +480,7 @@ public class Sistema extends javax.swing.JFrame {
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/money.png"))); // NOI18N
         jLabel10.setText("Total a pagar");
 
+        LabelTotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LabelTotal.setText("----");
 
         btnSaveSale.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/GuardarTodo.png"))); // NOI18N
@@ -512,15 +513,13 @@ public class Sistema extends javax.swing.JFrame {
                                 .addComponent(btnSaveSale, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGenerarVenta)
-                                .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(18, 18, 18)
+                                .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
-                                        .addGap(60, 60, 60)
-                                        .addComponent(LabelTotal))
-                                    .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(checkboxAplicaIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(checkboxAplicaIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(LabelTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
                                 .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -557,7 +556,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnGenerarVenta)
                     .addComponent(btnSaveSale, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
@@ -565,7 +564,7 @@ public class Sistema extends javax.swing.JFrame {
                             .addComponent(jLabel10)
                             .addComponent(checkboxAplicaIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(LabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(LabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(188, 188, 188))
         );
 
@@ -1066,7 +1065,7 @@ public class Sistema extends javax.swing.JFrame {
 
         int cantidad;
         String codigoBarras = txtCodigoProducto.getText();
-
+        
         if (!txtCantidadVenta.getText().equals("")){
             cantidad = Integer.parseInt(txtCantidadVenta.getText());
         } else {
@@ -1075,17 +1074,22 @@ public class Sistema extends javax.swing.JFrame {
 
         try {
             Producto prodFound = this.productosService.fetch(codigoBarras);
-
             ProductoDetalle detalle = this.ventasService.createDetalle(prodFound, cantidad);
 
-            this.AddDetalleProducto(detalle);
+            // Revisamos si hay que juntar el detalle con otro existente
+            // ej: agregamos dos productos iguales
+            if (!ventasService.updateDetalleIfDuplicated(this.tmpVenta.getDetalle(), detalle, tmpVenta)) {
+                // Add detail to tmp sale
+                this.tmpVenta.addDetalle(detalle);
+            }
+//            this.AddDetalleProducto(detalle);
+            LoadDetalle(this.tmpVenta.getDetalle());
 
-            // Add detail to tmp sale
-            this.tmpVenta.addDetalle(detalle);
-
+            // TODO: No se actualiza el total de la venta cuando se agrupan dos productos iguales
             LabelTotal.setText(String.valueOf(this.tmpVenta.getTotal()));
-
-            ClearVentaInputs();
+            
+            txtCodigoProducto.setText("");
+            txtCantidadVenta.setText("");
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -1147,8 +1151,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGenerarVentaActionPerformed
 
     private void btnEliminarventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarventaActionPerformed
-        // TODO add your handling code here:
-
+        
         String codigoBarras = txtCodigoProducto.getText();
 
         if (codigoBarras.equals("")){
@@ -1178,7 +1181,8 @@ public class Sistema extends javax.swing.JFrame {
             LabelTotal.setText(valorVenta);
         }
 
-        ClearVentaInputs();
+        txtCodigoProducto.setText("");
+        txtCantidadVenta.setText("");
     }//GEN-LAST:event_btnEliminarventaActionPerformed
 
     private void ventasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasButtonActionPerformed

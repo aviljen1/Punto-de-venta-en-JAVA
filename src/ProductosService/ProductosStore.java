@@ -48,15 +48,14 @@ public class ProductosStore implements CrudOperations<Producto> {
     }
 
     @Override
-    public Producto Obtener(Producto obj) {
+    public Producto Obtener(Producto obj) throws StoreException {
         for (int i=0; i < this.store.size(); i++){
             if (this.store.get(i).getCodigo().equals(obj.getCodigo())){
                 return this.store.get(i);
             }
         }
         
-        return null;
-//        throw new Exception();
+        throw new StoreException("");
         // Este metodo deberia tirar una StoreException
         // Pero si agrego eso no cumple la interfaz
         // modificar la interfaz o cambiar el manejo de errores

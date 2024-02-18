@@ -54,7 +54,7 @@ public class ProductosService {
             request.setCodigo(codigo);
             return this.store.Obtener(request);
         } catch (Exception ex) {
-            throw new StoreException("");
+            throw new StoreException("Codigo invalido");
         }
     }
     

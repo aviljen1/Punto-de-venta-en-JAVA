@@ -59,6 +59,18 @@ public class VentasService {
         venta.setTotal(venta.getTotal() + detalle.getTotal());
     }
     
+    public boolean updateDetalleIfDuplicated(List<ProductoDetalle> collected, ProductoDetalle toCheck, Venta currentVenta) {
+        if (!collected.contains(toCheck)) {
+            return false;
+            
+        }
+        
+        int index = collected.indexOf(toCheck);
+        collected.get(index).add(toCheck);
+        currentVenta.setTotal(currentVenta.getTotal() + toCheck.getTotal());
+        return true;
+    }
+    
     public Venta removeProductoFromDetalle(Venta venta, String codigo) {
     
         List<ProductoDetalle> detalleList = venta.getDetalle();
@@ -80,10 +92,9 @@ public class VentasService {
                     pDetalle.setCantidad(pDetalle.getCantidad() - 1);
                     
                     // Must re calculate total and subtotal
-                    float newTotal = pDetalle.getTotal() - 
-                            (pDetalle.getProducto().getPrecioUnitario() + 
-                            this.calculateIva(pDetalle.getProducto().getPrecioUnitario())
-                            );
+                    float pricePerItemToRemove = pDetalle.getProducto().getPrecioUnitario() + 
+                            this.calculateIva(pDetalle.getProducto().getPrecioUnitario());
+                    float newTotal = (pDetalle.getTotal() - pricePerItemToRemove);
                     
                     float newSubtotal = pDetalle.getSubtotal() - pDetalle.getProducto().getPrecioUnitario();
                     
@@ -91,7 +102,7 @@ public class VentasService {
                     pDetalle.setTotal(newTotal);
                     
                     // Also sale total
-                    venta.setTotal(venta.getTotal() - newTotal);
+                    venta.setTotal(venta.getTotal() - pricePerItemToRemove);
                     
                     break;
                 }

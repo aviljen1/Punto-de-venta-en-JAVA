@@ -4,6 +4,7 @@
  */
 package Modelo;
 
+import Exceptions.StoreException;
 import java.util.List;
 
 /**
@@ -16,5 +17,5 @@ public interface CrudOperations <T> {
     List Listar();
     boolean Eliminar(int id);
     boolean Modificar(T cl);
-    T Obtener(T obj);
+    T Obtener(T obj) throws StoreException;
 }
