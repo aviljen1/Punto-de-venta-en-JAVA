@@ -5,6 +5,9 @@
 package ProductosService;
 
 import Modelo.BaseTableModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Nico
@@ -16,27 +19,24 @@ public class Producto implements BaseTableModel {
     private int cantidadInicial;
     private String titulo;
     private String descripcion = null;
-
     private String codigo;
-
     private String proveedor;
-
-    
     // TODO: Convertir en enum (ni idea)
     private String categoria;
-    
+    private String estado;
+
+ 
     public Producto() {
         id = 0;
         precioUnitario = 0;
         cantidadInicial = 0;
         titulo = "";
         descripcion = "";
-
         codigo = "";
+        proveedor= "";
+        categoria= "";
+        estado="";
     }
-    
-
-    
     
     @Override
     public String toString() {
@@ -51,30 +51,30 @@ public class Producto implements BaseTableModel {
             this.cantidadInicial,
             this.titulo,
             this.descripcion,
+            this.codigo,
+            this.proveedor,
             this.categoria,
-            this.codigo
+            this.estado,
                 //agregar los campos nuevos
-        };
-        
+        };    
         return values;
     }
     
     public static String[] getColumnNames() {
-        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion", "proveedor","categoria" };
+        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion","codigo", "proveedor","categoria","estado"};
     }
     
-    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String proveedor, String categoria, String codigo) {
+    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo, String proveedor, String categoria, String estado) {
        
         this.id = id;
         this.precioUnitario = precioUnitario;
         this.cantidadInicial = cantidadInicial;
         this.titulo = titulo;
         this.descripcion = descripcion;
-
         this.codigo = codigo; //Esto es para el codigo de barra Ej 12312312312312312312423346544324124123
-
         this.proveedor=proveedor;
         this.categoria=categoria;
+        this.estado=estado;
     }
 
     public String getProveedor() {
@@ -141,5 +141,18 @@ public class Producto implements BaseTableModel {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
+    
+     public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+
+    }
+    
+  
+        
+
 
 }
