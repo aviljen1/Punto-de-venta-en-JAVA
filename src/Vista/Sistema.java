@@ -1742,8 +1742,8 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerarVenta;
     private javax.swing.JButton btnSaveProducto;
     private javax.swing.JButton btnSaveSale;
-
     private javax.swing.JButton btnguardarProveedor;
+    private javax.swing.JComboBox<String> cbxCatego;
     private javax.swing.JComboBox<String> cbxProveedorPro;
     private java.awt.Checkbox checkboxAplicaIva;
     private javax.swing.JButton jButton6;
