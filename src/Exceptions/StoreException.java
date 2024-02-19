@@ -13,5 +13,5 @@ public class StoreException extends Exception {
     public StoreException(String errorMessage) {
         super(errorMessage);
     }
-    
+   
 }
