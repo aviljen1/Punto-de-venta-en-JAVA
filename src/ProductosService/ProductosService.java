@@ -22,12 +22,12 @@ public class ProductosService {
         
         Producto[] productos = new Producto[] {
         
-            new Producto(0, 1600, 10, "Jugo de arandanos", "", "Proveedor 1", "1", "0"),
-            new Producto(0, 700, 20, "Leche largavida", "", "Proveedor 1", "1", "1"),
-            new Producto(0, 2500, 10, "Jugo de naranjas", "", "Proveedor 1", "1", "2"),
-            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "Proveedor 1", "1", "3"),
-            new Producto(0, 1500, 10, "Monster energy", "", "Proveedor 1", "1", "4"),
-        
+            /*new Producto(0, 1600, 10, "Jugo de arandanos", "", "Proveedor 1", "1", "0","HABILITADO"),
+           new Producto(0, 700, 20, "Leche largavida", "", "Proveedor 1", "1", "1","HABILITADO"),
+            new Producto(0, 2500, 10, "Jugo de naranjas", "", "Proveedor 1", "1", "2","HABILITADO"),
+            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "Proveedor 1", "1", "3","HABILITADO"),
+            new Producto(0, 1500, 10, "Monster energy", "", "Proveedor 1", "1", "4","HABILITADO"),
+        */
         }; 
     
         for (int i = 0;i < productos.length; i++){
