@@ -23,7 +23,7 @@ public class Producto implements BaseTableModel {
     private String proveedor;
     // TODO: Convertir en enum (ni idea)
     private String categoria;
-    private String estado;
+    private String  estado;
 
  
     public Producto() {
@@ -61,7 +61,9 @@ public class Producto implements BaseTableModel {
     }
     
     public static String[] getColumnNames() {
-        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion","codigo", "proveedor","categoria","estado"};
+       
+        
+        return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion","codigo", "proveedor","categoria", "estado"};
     }
     
     public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo, String proveedor, String categoria, String estado) {

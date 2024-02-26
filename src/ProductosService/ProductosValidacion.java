@@ -104,4 +104,46 @@ public class ProductosValidacion {
     }
     
     
+    //VALIDACION PARA DETALLE:
+    public static boolean isNumeric(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public static boolean contieneNumeros(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+            return true; // Se encontró al menos un dígito numérico
+            }
+        }
+        return false; // No se encontraron dígitos numéricos
+    }
+
+    
+   /* public static boolean validarString(String str) {
+         // Verificar si la cadena no es nula y no está vacía
+        if (str != null && !str.isEmpty()) {
+            return true; // La cadena es válida
+        } else {
+            return false; // La cadena es nula o está vacía
+        }
+    }*/
+
+
+ 
+    
+    
 }
