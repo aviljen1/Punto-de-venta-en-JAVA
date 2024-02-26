@@ -91,9 +91,6 @@ public class Sistema extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         btnSaveProducto.setEnabled(false);//Este boton al proncipio esta deshabilitado
-        txtIdCliente.setVisible(false);
-        
-        
         
         // Custom model for Products table
         TableProducto.setModel(new DefaultTableModel() {
@@ -1370,33 +1367,6 @@ public class Sistema extends javax.swing.JFrame {
         DefaultTableModel dtm = (DefaultTableModel) TableVenta.getModel();
         dtm.setRowCount(0);
     }
-    
-    //
-            
-
-    private void cbxProveedorProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedorProActionPerformed
-        // TODO add your handling code here:
-    /* cbxProveedorPro.addItem("Proveedor 1");
-    cbxProveedorPro.addItem("Proveedor 2");
-    cbxProveedorPro.addItem("Proveedor 3");*/
-        
-    }//GEN-LAST:event_cbxProveedorProActionPerformed
-
-    private void txtPrecioUniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioUniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecioUniActionPerformed
-
-    private void txtCantIniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantIniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantIniActionPerformed
-
-    private void txtTitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTitActionPerformed
-
-    private void txtDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescActionPerformed
 
     private void txtCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodActionPerformed
         // TODO add your handling code here:
@@ -2085,6 +2055,7 @@ if (filaSeleccionada != -1) {
     private javax.swing.JButton btnPdfVentas;
     private javax.swing.JButton btnSaveProducto;
     private javax.swing.JButton btnSaveSale;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton btnguardarProveedor;
     private javax.swing.JComboBox<String> cbxCatego;
     private javax.swing.JComboBox<String> cbxProveedorPro;
