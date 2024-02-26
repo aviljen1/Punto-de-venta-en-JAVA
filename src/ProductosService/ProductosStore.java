@@ -44,9 +44,26 @@ public class ProductosStore implements CrudOperations<Producto> {
 
     @Override
     public boolean Modificar(Producto cl) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            Producto p = this.GetByCode(cl.getCodigo());
+            
+            return true;
+            
+        } catch(Exception ex) {
+            return false;
+        }
+        
     }
 
+    private Producto GetByCode(String codigo) throws StoreException {
+        for (int i=0; i < this.store.size(); i++){
+            if (this.store.get(i).getCodigo().equals(codigo)){
+                return this.store.get(i);
+            }
+        }
+        throw new StoreException("");
+    }
+    
     @Override
     public Producto Obtener(Producto obj) throws StoreException {
         for (int i=0; i < this.store.size(); i++){
