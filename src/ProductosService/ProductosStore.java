@@ -45,7 +45,18 @@ public class ProductosStore implements CrudOperations<Producto> {
     @Override
     public boolean Modificar(Producto cl) {
         try {
-            Producto p = this.GetByCode(cl.getCodigo());
+            int index = this.GetIndexByCode(cl.getCodigo());
+            
+            Producto p = this.store.get(index);
+            
+            p.setCantidadInicial(cl.getCantidadInicial());
+            p.setCategoria(cl.getCategoria());
+            p.setCodigo(cl.getCodigo());
+            p.setDescripcion(cl.getDescripcion());
+            p.setEstado(cl.getEstado());
+            p.setPrecioUnitario(cl.getPrecioUnitario());
+            p.setProveedor(cl.getProveedor());
+            p.setTitulo(cl.getTitulo());
             
             return true;
             
@@ -55,10 +66,10 @@ public class ProductosStore implements CrudOperations<Producto> {
         
     }
 
-    private Producto GetByCode(String codigo) throws StoreException {
+    private int GetIndexByCode(String codigo) throws StoreException {
         for (int i=0; i < this.store.size(); i++){
             if (this.store.get(i).getCodigo().equals(codigo)){
-                return this.store.get(i);
+                return i;
             }
         }
         throw new StoreException("");

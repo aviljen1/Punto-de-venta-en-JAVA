@@ -878,7 +878,6 @@ public class Sistema extends javax.swing.JFrame {
 
         jtxtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtxtFiltroKeyTyped(evt);
             }
         });
 
@@ -1008,40 +1007,6 @@ public class Sistema extends javax.swing.JFrame {
         this.tmpVenta = new Venta();
     }//GEN-LAST:event_menuVentasBtnActionPerformed
 
-    // TODO add your handling code here:
-//        // TODO add your handling code here:
-//        if (!"".equals(txtIdCliente.getText())) {
-//            int pregunta = JOptionPane.showConfirmDialog(null, "Esta seguro de eliminar");
-//            if (pregunta == 0) {
-//                int id = Integer.parseInt(txtIdCliente.getText());
-//                client.EliminarCliente(id);
-//                LimpiarTable();
-//                LimpiarCliente();
-//                ListarCliente();
-//            }
-//        }
-//        // TODO add your handling code here:
-//        if ("".equals(txtIdCliente.getText())) {
-//            JOptionPane.showMessageDialog(null, "seleccione una fila");
-//        } else {
-//            try {
-//                Cliente cl = new Cliente();
-//                cl.setDni(txtDniCliente.getText());
-//                cl.setNombre(txtNombreCliente.getText());
-//                cl.setTelefono(txtTelefonoCliente.getText());
-//                cl.setDireccion(txtDireccionCliente.getText());
-//                cl.setRazon(txtRazonCliente.getText());
-//                cl.setId(Integer.parseInt(txtIdCliente.getText()));
-//                client.ModificarCliente(cl);
-//                //JOptionPane.showMessageDialog(null, "Cliente Modificado");
-//                LimpiarTable();
-//                LimpiarCliente();
-//                ListarCliente();
-//            } catch (ValidationException ex) {
-//                JOptionPane.showMessageDialog(null, ex.getMessage());
-//            }
-//        }
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
          // JEN
@@ -1164,14 +1129,14 @@ public class Sistema extends javax.swing.JFrame {
             String codigo = txtCod.getText(); 
             String proveedor=cbxProveedorPro.getSelectedItem().toString();
             String categoria= cbxCatego.getSelectedItem().toString();
-            Boolean estado;
-            if (Borrar==1){
-                estado= false;
-                System.out.println("Se deshabilito!");
-            }else{
-                estado= true ;
-            }
-            String castEstado = String.valueOf(estado);
+//            Boolean estado;
+//            if (Borrar==1){
+//                estado= false;
+//                System.out.println("Se deshabilito!");
+//            }else{
+//                estado= true ;
+//            }
+            String castEstado = "HABILITADO";
             //Verifica si se repite codigo:
            if( ProductosValidacion.AgregarLista( listamodeloCod, listamodeloDesc,listamodeloTitulo,  codigo, descripcion, titulo, jList1, jList2, jList3)==0){
                 Producto nuevoProducto = new Producto(id,precioUnitario, cantidadInicial, titulo, descripcion,codigo,proveedor,categoria,castEstado);
@@ -1461,146 +1426,58 @@ public class Sistema extends javax.swing.JFrame {
             StringBuilder productosEliminadosBuilder = new StringBuilder(); // Usamos StringBuilder para construir la cadena de productos eliminados
             int l = 0;
 
+            List<String> codigosProductos = new ArrayList<>();
+            
             for (int i = rows.length - 1; i >= 0; i--) {
                 int rowIndex = TableProducto.convertRowIndexToModel(rows[i]);
                 for (int j = 0; j < model.getColumnCount(); j++) {
                     Object valorCelda = model.getValueAt(rowIndex, j);
                     if (j == 3) {
+                        codigosProductos.add(valorCelda.toString());
                         productosEliminadosBuilder.append(valorCelda.toString()).append(", "); // Agregamos el valor de la celda seguido de una coma y un espacio a la cadena
                         l++;
                     }
                 }
             }
 
-        String productosEliminados = productosEliminadosBuilder.toString(); // Convertimos el StringBuilder a String
+            String productosEliminados = productosEliminadosBuilder.toString(); // Convertimos el StringBuilder a String
 
-        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar los productos: " + productosEliminados + "?");
+            int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar los productos: " + productosEliminados + "?");
 
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            // Eliminar las filas seleccionadas
-            for (int i = rows.length - 1; i >= 0; i--) {
-                int rowIndex = TableProducto.convertRowIndexToModel(rows[i]);
-                model.removeRow(rowIndex);
-                Borrar = 1;
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                // Eliminar las filas seleccionadas
+                for (int i = rows.length - 1; i >= 0; i--) {
+                    int rowIndex = TableProducto.convertRowIndexToModel(rows[i]);
+                    model.removeRow(rowIndex);
+                    Borrar = 1;
+                }
+                
+                codigosProductos.forEach(codigo -> {
+                    try {
+                        Producto toUpdate = productosService.fetch(codigo);
+                        toUpdate.setEstado("DESHABILITADO"); // FIX: Cambiar a boolean
+                        productosService.update(toUpdate);
+                    } catch (Exception ex) {
+                        
+                    }
+                });
+                
+            } else {
+                // No hacer nada
+                Borrar = 0;
             }
-        } else {
-            // No hacer nada
-            Borrar = 0;
-        }
 
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(null, "Se deshabilitaron los productos: " + productosEliminados);
-        } else {
-            JOptionPane.showMessageDialog(null, "Operación cancelada. No se deshabilitaron productos.");
-        }
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "Se deshabilitaron los productos: " + productosEliminados);
+            } else {
+                JOptionPane.showMessageDialog(null, "Operación cancelada. No se deshabilitaron productos.");
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Por favor seleccione al menos una fila para eliminar.");
         }
 
-   /*Esto lo que hace es deshabilitar no lo elimina de la BD sino que setea el Estado en DESHABILITADO y
-        lo saca de la tabla visible pero no lo elimina de la BD.
-   
-   
-    int[] rows = TableProducto.getSelectedRows();
-    DefaultTableModel model = (DefaultTableModel) TableProducto.getModel();
-    StringBuilder productosEliminadosBuilder = new StringBuilder(); // Usamos StringBuilder para construir la cadena de productos eliminados
-    int l = 0;
-
-    for (int i = rows.length - 1; i >= 0; i--) {
-        int rowIndex = TableProducto.convertRowIndexToModel(rows[i]);
-        for (int j = 0; j < model.getColumnCount(); j++) {
-            Object valorCelda = model.getValueAt(rowIndex, j);
-            if (j == 3) {
-                productosEliminadosBuilder.append(valorCelda.toString()).append(", "); // Agregamos el valor de la celda seguido de una coma y un espacio a la cadena
-                l++;
-            }
-        }
-    }
-
-    String productosEliminados = productosEliminadosBuilder.toString(); // Convertimos el StringBuilder a String
-
-    int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar los productos: " + productosEliminados + "?");
-
-    if (confirmacion == JOptionPane.YES_OPTION) {
-    // Eliminar las filas seleccionadas
-        for (int i = rows.length - 1; i >= 0; i--) {
-            int rowIndex = TableProducto.convertRowIndexToModel(rows[i]);
-            model.removeRow(rowIndex);
-            Borrar=1;
-        }
-    }else {
-         // No hacer nada
-         Borrar=0;
-    }
-
-    if (confirmacion == JOptionPane.YES_OPTION) {
-        JOptionPane.showMessageDialog(null, "Se deshabilitaron los productos: " + productosEliminados);
-    } else {
-        JOptionPane.showMessageDialog(null, "Operación cancelada. No se deshabilitaron productos.");
-    }*/
-
-    }//GEN-LAST:event_btnEliminarproActionPerformed
-
-    private void jtxtFiltroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtFiltroKeyTyped
-        // Filtra por la columna 3  
-    /*jtxtFiltro.addKeyListener(new KeyAdapter() {
-        @Override
-        public void keyReleased(KeyEvent e) {
-            try {
-                int columnaAFiltrar = 3; // Cambiar a la columna deseada para el filtro
-                trs.setRowFilter(RowFilter.regexFilter(jtxtFiltro.getText(), columnaAFiltrar));
-            } catch (PatternSyntaxException ex) {
-                // Manejar excepción si la expresión regular es inválida
-                System.out.println(ex);
-            } catch (IllegalArgumentException ex) {
-                // Manejar excepción si la columna especificada no existe
-                System.out.println(ex);
-            }
-        }
-    });
-    
-    trs = new TableRowSorter(modelo);
-    TableProducto.setRowSorter(trs);
-*/
-        //FILTRA POR LA COLUMNA 3 Y 5:
-                                    
-        // Agregar un KeyListener al campo de filtro
-        /*jtxtFiltro.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                try {
-                    // Definir las columnas a filtrar (en este caso, las columnas 3 y 5)
-                    int[] columnasAFiltrar = {3, 5};
-                
-                    // Crear una lista de RowFilter para cada columna
-                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                    for (int columna : columnasAFiltrar) {
-                        filters.add(RowFilter.regexFilter(jtxtFiltro.getText(), columna));
-                    }
-                
-                // Combinar los filtros en un RowFilter compuesto
-                RowFilter<Object, Object> combinedFilter = RowFilter.orFilter(filters);
-                
-                // Aplicar el filtro a la tabla
-                trs.setRowFilter(combinedFilter);
-                } catch (PatternSyntaxException ex) {
-                    // Manejar excepción si la expresión regular es inválida
-                    System.out.println(ex);
-                } catch (IllegalArgumentException ex) {
-                    // Manejar excepción si alguna de las columnas especificadas no existe
-                    System.out.println(ex);
-                }
-            }
-        });
-    
-        // Crear un TableRowSorter y aplicarlo a la tabla
-         trs = new TableRowSorter(modelo);
-         TableProducto.setRowSorter(trs);
-*/
-        
-        
         //ACA ADEMAS DE FILTRAR POR LAS COLUMNAS 3 Y 5 TAMBIEN HACEMOS QUE NO SEA SENSIBLE A MAY Y MIN:
-                                   
+
         // Agregar un KeyListener al campo de filtro
         jtxtFiltro.addKeyListener(new KeyAdapter() {
             @Override
@@ -1636,12 +1513,16 @@ public class Sistema extends javax.swing.JFrame {
         trs = new TableRowSorter(modelo);
         TableProducto.setRowSorter(trs);
 
-
-
-
     }//GEN-LAST:event_jtxtFiltroKeyTyped
 
     private void btnEditarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarproActionPerformed
+
+//        List<Producto> productos;
+//        
+//        try{
+//            productos = productosService.list();
+//        } catch (Exception ex) {
+//        }
 
         if(TableProducto.getSelectedRowCount()>1){
             JOptionPane.showMessageDialog(this, "Por favor, seleccione solo una fila para editar.");
@@ -1680,16 +1561,33 @@ public class Sistema extends javax.swing.JFrame {
             // Cuando la ventana Detalle se cierra, obtener los nuevos valores ingresados
             // y actualizar la fila correspondiente en la tabla TableProducto
             detalle.addWindowListener(new java.awt.event.WindowAdapter() {
+                
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    return;
+                }
+                
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent windowEvent) {
                     if (detalle.getAceptado()) { // Si el usuario hizo clic en "Aceptar"
                         
-
+                        Producto toUpdate = new Producto();
+                        
+                        try {
+                            toUpdate = productosService.fetch(cod);
+                        } catch (Exception ex) {
+                            // Existe en la interfaz pero no en la DB
+                            JOptionPane.showMessageDialog(null, "El producto no existe en el sistema.");
+                        }
+                        
+                        JOptionPane.showMessageDialog(null, "EN WINDOWCLOSED");
+                        
                         //Validar:
                         //Validar el Precio Unitario:  
                         if (!detalle.PrecioUni.getText().isEmpty() && ProductosValidacion.isNumeric(detalle.PrecioUni.getText())) {
                             // Convertir a float
                             float nuevoPrecioUni = Float.parseFloat(detalle.PrecioUni.getText());
+                            toUpdate.setPrecioUnitario(nuevoPrecioUni);
                             // Actualizar la fila correspondiente en la tabla TableProducto
                             TableProducto.setValueAt(nuevoPrecioUni, filaSeleccionada, 1);
                         } else {
@@ -1701,9 +1599,10 @@ public class Sistema extends javax.swing.JFrame {
                         
                         //Validar el Nueva cantidad inicial:    
                         if (!detalle.CantInici.getText().isEmpty() && ProductosValidacion.isInteger(detalle.CantInici.getText())) {
-                        int nuevaCantIni = Integer.parseInt(detalle.CantInici.getText());
-                        // Actualizar la fila correspondiente en la tabla TableProducto     
-                        TableProducto.setValueAt(nuevaCantIni, filaSeleccionada, 2);
+                            int nuevaCantIni = Integer.parseInt(detalle.CantInici.getText());
+                            toUpdate.setCantidadInicial(nuevaCantIni);
+                            // Actualizar la fila correspondiente en la tabla TableProducto     
+                            TableProducto.setValueAt(nuevaCantIni, filaSeleccionada, 2);
                         } else {
                             // Manejar el caso donde el valor ingresado no es válido
                             JOptionPane.showMessageDialog(null, "Por favor, ingrese una cantidad inicial valida.");
@@ -1715,6 +1614,7 @@ public class Sistema extends javax.swing.JFrame {
                         if (!detalle.Titulo.getText().isEmpty() && !ProductosValidacion.contieneNumeros(detalle.Titulo.getText())) {
                             // El título no contiene números
                             String nuevoTitulo = detalle.Titulo.getText();
+                            toUpdate.setTitulo(nuevoTitulo);
                             // Actualizar la fila correspondiente en la tabla TableProducto     
                             TableProducto.setValueAt(nuevoTitulo, filaSeleccionada, 3);
                         } else {
@@ -1738,6 +1638,8 @@ public class Sistema extends javax.swing.JFrame {
                             }
 
                             if (!codigoRepetido) {
+                                
+                                toUpdate.setCodigo(nuevoCod);
                                 // No se repite, podemos actualizar la fila correspondiente en la tabla TableProducto
                                 TableProducto.setValueAt(nuevoCod, filaSeleccionada, 5);
                             } else {
@@ -1755,6 +1657,7 @@ public class Sistema extends javax.swing.JFrame {
                         if ( !ProductosValidacion.contieneNumeros(detalle.Desc.getText())) {
                             // El título no contiene números
                             String nuevaDesc = detalle.Desc.getText();
+                            toUpdate.setDescripcion(nuevaDesc);
                             // Actualizar la fila correspondiente en la tabla TableProducto     
                             TableProducto.setValueAt(nuevaDesc, filaSeleccionada, 4);
                         } else {
@@ -1771,9 +1674,17 @@ public class Sistema extends javax.swing.JFrame {
                         TableProducto.setValueAt(nuevoProveedor, filaSeleccionada, 6);
                         TableProducto.setValueAt(nuevaCategoria, filaSeleccionada, 7);
 
+                        toUpdate.setProveedor(nuevoProveedor);
+                        toUpdate.setCategoria(nuevaCategoria);
                         
+                        try {
+                            
+                            productosService.update(toUpdate);
+                        
+                        } catch (Exception ex) {
+                        
+                        }
 
-                
                     }
                 }
             });

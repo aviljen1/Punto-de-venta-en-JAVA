@@ -82,6 +82,14 @@ public class Producto implements BaseTableModel {
     public String getProveedor() {
         return proveedor;
     }
+    
+//    public void setEstado(String estado) {
+//        this.estado = estado;
+//    }
+//    
+//    public String getEstado() {
+//        return estado;
+//    }
 
     public void setProveedor(String proveedor) {
         this.proveedor = proveedor;
@@ -152,9 +160,5 @@ public class Producto implements BaseTableModel {
         this.estado = estado;
 
     }
-    
-  
-        
-
-
+   
 }

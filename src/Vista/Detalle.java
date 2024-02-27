@@ -254,8 +254,11 @@ public class Detalle extends javax.swing.JDialog {
         //this.setVisible(false); //Se oculta si al Aceptar esta todo 
        this.aceptado = true;
         
-        // Cerrar la ventana
-        this.dispose();
+       // LA LOGICA DE VALIDACION DEBERIA EJECUTARSE ACA
+       JOptionPane.showMessageDialog(null, "EN HANDLER ACEPTAR");
+       
+       // Cerrar la ventana
+       this.dispose();
         
     }//GEN-LAST:event_btnAceptarActionPerformed
 
