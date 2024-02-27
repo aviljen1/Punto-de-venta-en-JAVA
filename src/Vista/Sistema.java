@@ -185,9 +185,9 @@ public class Sistema extends javax.swing.JFrame {
         TableVenta.setModel(modelo);
     }
 
-    public void LimpiarTable() { //para limpiar la tabla para que no se muetsren filas repetidas
-        for (int i = 0; i < modelo.getRowCount(); i++) {
-            modelo.removeRow(i);
+    public void LimpiarTable(DefaultTableModel tableModel) { //para limpiar la tabla para que no se muetsren filas repetidas
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            tableModel.removeRow(i);
             i = i - 1;
         }
     }
@@ -1094,7 +1094,7 @@ public class Sistema extends javax.swing.JFrame {
         }
         
         ClearVentaInputs();
-        LimpiarTable();
+        LimpiarTable((DefaultTableModel) TableVenta.getModel());
     }//GEN-LAST:event_btnCashConfirmActionPerformed
 
     
@@ -1141,7 +1141,7 @@ public class Sistema extends javax.swing.JFrame {
            if( ProductosValidacion.AgregarLista( listamodeloCod, listamodeloDesc,listamodeloTitulo,  codigo, descripcion, titulo, jList1, jList2, jList3)==0){
                 Producto nuevoProducto = new Producto(id,precioUnitario, cantidadInicial, titulo, descripcion,codigo,proveedor,categoria,castEstado);
                  this.productosService.add(nuevoProducto);
-                 LimpiarTable();
+                 LimpiarTable((DefaultTableModel) TableProducto.getModel());
                  LoadProductos();
                  Limpiarproducto();
              
@@ -1308,7 +1308,7 @@ public class Sistema extends javax.swing.JFrame {
 
     private void ventasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasButtonActionPerformed
         principalPanel.setSelectedIndex(1);
-        LimpiarTable();
+        LimpiarTable((DefaultTableModel) TableVentasHistorico.getModel());
         LoadVentasHistorico();
     }//GEN-LAST:event_ventasButtonActionPerformed
 
@@ -1417,7 +1417,7 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxCategoActionPerformed
     
     
-    private void btnEliminarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarproActionPerformed
+    private void btnEliminarproActionPerformed(java.awt.event.ActionEvent evt) {                                               
 
         // Verificar si hay alguna fila seleccionada
         if (TableProducto.getSelectedRowCount() > 0) {
@@ -1513,7 +1513,7 @@ public class Sistema extends javax.swing.JFrame {
         trs = new TableRowSorter(modelo);
         TableProducto.setRowSorter(trs);
 
-    }//GEN-LAST:event_jtxtFiltroKeyTyped
+    }                                   
 
     private void btnEditarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarproActionPerformed
 
