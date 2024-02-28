@@ -547,7 +547,7 @@ public class Sistema extends javax.swing.JFrame {
             .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 912, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 952, Short.MAX_VALUE)
                     .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
                         .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
@@ -635,7 +635,7 @@ public class Sistema extends javax.swing.JFrame {
         ventasHistPanelLayout.setHorizontalGroup(
             ventasHistPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ventasHistPanelLayout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(64, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -674,7 +674,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addGroup(adminPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(adminPanelLayout.createSequentialGroup()
                         .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -888,6 +888,20 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
+        btnEliminarpro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/eliminar.png"))); // NOI18N
+        btnEliminarpro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarproActionPerformed(evt);
+            }
+        });
+
+        btnEditarpro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Actualizar (2).png"))); // NOI18N
+        btnEditarpro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarproActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -926,8 +940,13 @@ public class Sistema extends javax.swing.JFrame {
                         .addComponent(jtxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(btnLimpiar))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEliminarpro)
+                            .addComponent(btnEditarpro))))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -965,37 +984,27 @@ public class Sistema extends javax.swing.JFrame {
                             .addComponent(cbxCatego, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(btnSaveProducto)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 7, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 4, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(jtxtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnLimpiar))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnEliminarpro, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEditarpro)))))
                 .addGap(68, 68, 68))
         );
 
         principalPanel.addTab("Productos", jPanel5);
 
-        getContentPane().add(principalPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 930, 470));
-
-        btnEliminarpro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/eliminar.png"))); // NOI18N
-        btnEliminarpro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarproActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEliminarpro, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 270, -1, 32));
-
-        btnEditarpro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/Actualizar (2).png"))); // NOI18N
-        btnEditarpro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarproActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnEditarpro, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 320, -1, -1));
+        getContentPane().add(principalPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 970, 470));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1159,11 +1168,7 @@ public class Sistema extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnSaveProductoActionPerformed
 
-    private void cbxProveedorProActionPerformed(java.awt.event.ActionEvent evt) {                                                
-        // TODO add your handling code here:
-        /* cbxProveedorPro.addItem("Proveedor 1");
-        cbxProveedorPro.addItem("Proveedor 2");
-        cbxProveedorPro.addItem("Proveedor 3");*/
+    private void cbxProveedorProActionPerformed(java.awt.event.ActionEvent evt) {
 
     }                                               
 
@@ -1196,8 +1201,12 @@ public class Sistema extends javax.swing.JFrame {
         } else {
             cantidad = 1;
         }
-
+        
         try {
+            if (cantidad <= 0) {
+                return;
+            }
+            
             Producto prodFound = this.productosService.fetch(codigoBarras);
             ProductoDetalle detalle = this.ventasService.createDetalle(prodFound, cantidad);
 
@@ -1213,11 +1222,12 @@ public class Sistema extends javax.swing.JFrame {
             // TODO: No se actualiza el total de la venta cuando se agrupan dos productos iguales
             LabelTotal.setText(String.valueOf(this.tmpVenta.getTotal()));
             
-            txtCodigoProducto.setText("");
-            txtCantidadVenta.setText("");
-
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+            
+        } finally {
+            txtCodigoProducto.setText("");
+            txtCantidadVenta.setText("");
         }
     }//GEN-LAST:event_btnAddProductToSaleActionPerformed
 
@@ -1747,27 +1757,19 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnEditarpro;
     private javax.swing.JButton btnEliminarpro;
     private javax.swing.JButton btnEliminarventa;
-    private javax.swing.JButton btnGenerarVenta;
-    private javax.swing.JButton btnGuardarCliente;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnNuevoCliente;
-    private javax.swing.JButton btnNuevoProveedor;
-    private javax.swing.JButton btnPdfVentas;
     private javax.swing.JButton btnSaveProducto;
     private javax.swing.JButton btnSaveSale;
-    private javax.swing.JButton jButton23;
-    private javax.swing.JButton btnguardarProveedor;
     private javax.swing.JComboBox<String> cbxCatego;
     private javax.swing.JComboBox<String> cbxProveedorPro;
     private java.awt.Checkbox checkboxAplicaIva;
+    private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton6;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;

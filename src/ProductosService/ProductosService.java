@@ -52,7 +52,7 @@ public class ProductosService {
             request.setCodigo(codigo);
             return this.store.Obtener(request);
         } catch (Exception ex) {
-            throw new StoreException("Codigo invalido");
+            throw new StoreException("Codigo de barras no reconocido");
         }
     }
     
