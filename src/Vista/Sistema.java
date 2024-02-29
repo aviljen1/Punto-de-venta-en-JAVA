@@ -85,7 +85,7 @@ public class Sistema extends javax.swing.JFrame {
     JButton botonEliminar = new JButton("btnEliminarpro");
     
     //Para el boton buscar:   
-        TableRowSorter trs;
+    TableRowSorter trs;
 
     public Sistema() {
         initComponents();
@@ -123,7 +123,36 @@ public class Sistema extends javax.swing.JFrame {
         });
         
         LoadProductos();
-       
+        
+        jtxtFiltro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                try {
+                    // Definir las columnas a filtrar (en este caso, las columnas 3 y 5)
+                    int[] columnasAFiltrar = {3, 5};
+                
+                    // Crear una lista de RowFilter para cada columna
+                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
+                    for (int columna : columnasAFiltrar) {
+                        // Crear un filtro que ignore la distinción entre mayúsculas y minúsculas
+                        RowFilter<Object, Object> filter = RowFilter.regexFilter("(?i)" + jtxtFiltro.getText(), columna);
+                        filters.add(filter);
+                    }
+                
+                    // Combinar los filtros en un RowFilter compuesto
+                    RowFilter<Object, Object> combinedFilter = RowFilter.orFilter(filters);
+                
+                    // Aplicar el filtro a la tabla
+                    trs.setRowFilter(combinedFilter);
+                } catch (PatternSyntaxException ex) {
+                    // Manejar excepción si la expresión regular es inválida
+                    System.out.println(ex);
+                } catch (IllegalArgumentException ex) {
+                    // Manejar excepción si alguna de las columnas especificadas no existe
+                    System.out.println(ex);
+                }
+            }
+        });
     }
     
     public void LoadProductos() {
@@ -136,10 +165,11 @@ public class Sistema extends javax.swing.JFrame {
         }
         
         modelo = (DefaultTableModel) TableProducto.getModel();
-
         objToAdd.forEach(obj -> modelo.addRow(obj));
-
-        TableProducto.setModel(modelo);        
+        TableProducto.setModel(modelo);
+        // Crear un TableRowSorter y aplicarlo a la tabla
+        trs = new TableRowSorter(modelo);
+        TableProducto.setRowSorter(trs);
     }
     
     public void LoadVentas() {
@@ -876,8 +906,9 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel11.setText("Buscar (Titulo o Codigo)");
 
-        jtxtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
+        jtxtFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtFiltroActionPerformed(evt);
             }
         });
 
@@ -1017,11 +1048,9 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVentasBtnActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
-         // JEN
-      //  principalPanel.setSelectedIndex(0);
         jtxtFiltro.setText("");
-        
+        LimpiarTable((DefaultTableModel) TableProducto.getModel());
+        LoadProductos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
 
@@ -1118,19 +1147,7 @@ public class Sistema extends javax.swing.JFrame {
     private void btnSaveProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveProductoActionPerformed
         // JENI
         try {
-       
-           /* cbxProveedorPro.addItem("Proveedor 1");
-            cbxProveedorPro.addItem("Proveedor 2");
-            cbxProveedorPro.addItem("Proveedor 3");
-            
-            cbxCatego.addItem("Limpieza");
-            cbxCatego.addItem("Alimento");
-            cbxCatego.addItem("Lacteos");
-            cbxCatego.addItem("Textil");
-            cbxCatego.addItem("Cocina");*/
-
-            //int id =Integer.parseInt(txtCodigoPro.getText());
-            int id=0;
+            int id = 0;
             float precioUnitario = Float.parseFloat(txtPrecioUni.getText());
             int cantidadInicial = Integer.parseInt(txtCantIni.getText());
             String titulo = txtTit.getText();
@@ -1138,30 +1155,31 @@ public class Sistema extends javax.swing.JFrame {
             String codigo = txtCod.getText(); 
             String proveedor=cbxProveedorPro.getSelectedItem().toString();
             String categoria= cbxCatego.getSelectedItem().toString();
-//            Boolean estado;
-//            if (Borrar==1){
-//                estado= false;
-//                System.out.println("Se deshabilito!");
-//            }else{
-//                estado= true ;
-//            }
-            String castEstado = "HABILITADO";
-            //Verifica si se repite codigo:
-           if( ProductosValidacion.AgregarLista( listamodeloCod, listamodeloDesc,listamodeloTitulo,  codigo, descripcion, titulo, jList1, jList2, jList3)==0){
-                Producto nuevoProducto = new Producto(id,precioUnitario, cantidadInicial, titulo, descripcion,codigo,proveedor,categoria,castEstado);
-                 this.productosService.add(nuevoProducto);
-                 LimpiarTable((DefaultTableModel) TableProducto.getModel());
-                 LoadProductos();
-                 Limpiarproducto();
-             
-            JOptionPane.showMessageDialog(null, "Producto Registrado");  
-           }else{
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un producto valido");
-             //Limpiarproducto();
-           }
+            boolean castEstado = true;
+            
+            try {
+                productosService.fetch(codigo);
+                JOptionPane.showMessageDialog(null, "El producto con el codigo " + codigo + " ya existe.");
+            } catch (Exception ex) {
+                Producto nuevoProducto = new Producto(
+                        id,
+                        precioUnitario,
+                        cantidadInicial,
+                        titulo,
+                        descripcion,
+                        codigo,
+                        proveedor,
+                        categoria,
+                        castEstado
+                );
+                this.productosService.add(nuevoProducto);
+                LimpiarTable((DefaultTableModel) TableProducto.getModel());
+                LoadProductos();
+                Limpiarproducto();
+            }
 
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Error:Ingresar un valor");
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -1365,10 +1383,9 @@ public class Sistema extends javax.swing.JFrame {
     private void txtTitKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTitKeyReleased
         // Valida el campo obligatorio Titulo
      
-        obligTit=ProductosValidacion.camposObligTxt(txtTit,jLabel25, btnSaveProducto, contadorP); 
-            if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1){
-                btnSaveProducto.setEnabled(true);
-                
+        obligTit = ProductosValidacion.camposObligTxt(txtTit,jLabel25, btnSaveProducto, contadorP); 
+        if(obligPrec == 1 && obligTit == 1 && obligCantI == 1 && obligCod == 1){
+            btnSaveProducto.setEnabled(true);
         }else{
             btnSaveProducto.setEnabled(false);
         }
@@ -1377,10 +1394,10 @@ public class Sistema extends javax.swing.JFrame {
     private void txtPrecioUniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioUniKeyReleased
         // Valida el campo obligatorio Precio
         
-        obligPrec=ProductosValidacion.camposObligTxt(txtPrecioUni,jLabel23, btnSaveProducto, contadorP);
-        if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1){
+        obligPrec = ProductosValidacion.camposObligTxt(txtPrecioUni,jLabel23, btnSaveProducto, contadorP);
+        
+        if(obligPrec == 1 && obligTit == 1 && obligCantI == 1 && obligCod == 1){
             btnSaveProducto.setEnabled(true);
-             
         }else{
             btnSaveProducto.setEnabled(false);
         }
@@ -1389,10 +1406,9 @@ public class Sistema extends javax.swing.JFrame {
 
     private void txtCantIniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantIniKeyReleased
         // Valida el campo obligatorio Cantidad
-        obligCantI=ProductosValidacion.camposObligTxt(txtCantIni,jLabel24, btnSaveProducto, contadorP);
-        if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1 ){
+        obligCantI = ProductosValidacion.camposObligTxt(txtCantIni,jLabel24, btnSaveProducto, contadorP);
+        if(obligPrec == 1 && obligTit == 1 && obligCantI == 1 && obligCod == 1 ){
             btnSaveProducto.setEnabled(true);
-            
         }else{
             btnSaveProducto.setEnabled(false);
         }
@@ -1400,19 +1416,17 @@ public class Sistema extends javax.swing.JFrame {
 
     private void txtCodKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodKeyReleased
         // Valida el campo obligatorio Codigo de barra
-        obligCod= ProductosValidacion.camposObligTxt(txtCod,jLabel35, btnSaveProducto, contadorP);
-        if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1 ){
+        obligCod = ProductosValidacion.camposObligTxt(txtCod,jLabel35, btnSaveProducto, contadorP);
+        if(obligPrec == 1 && obligTit == 1 && obligCantI == 1 && obligCod == 1){
             btnSaveProducto.setEnabled(true);
-            
         }else{
             btnSaveProducto.setEnabled(false);
         }  
     }//GEN-LAST:event_txtCodKeyReleased
 
     private void txtDescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescKeyReleased
-         if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1 ){
+         if(obligPrec == 1 && obligTit == 1 && obligCantI == 1 && obligCod == 1){
             btnSaveProducto.setEnabled(true);
-            
         }else{
             btnSaveProducto.setEnabled(false);
         }      
@@ -1465,7 +1479,7 @@ public class Sistema extends javax.swing.JFrame {
                 codigosProductos.forEach(codigo -> {
                     try {
                         Producto toUpdate = productosService.fetch(codigo);
-                        toUpdate.setEstado("DESHABILITADO"); // FIX: Cambiar a boolean
+                        toUpdate.setHabilitado(false); // FIX: Cambiar a boolean
                         productosService.update(toUpdate);
                     } catch (Exception ex) {
                         
@@ -1485,44 +1499,6 @@ public class Sistema extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Por favor seleccione al menos una fila para eliminar.");
         }
-
-        //ACA ADEMAS DE FILTRAR POR LAS COLUMNAS 3 Y 5 TAMBIEN HACEMOS QUE NO SEA SENSIBLE A MAY Y MIN:
-
-        // Agregar un KeyListener al campo de filtro
-        jtxtFiltro.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                try {
-                    // Definir las columnas a filtrar (en este caso, las columnas 3 y 5)
-                    int[] columnasAFiltrar = {3, 5};
-                
-                    // Crear una lista de RowFilter para cada columna
-                    List<RowFilter<Object, Object>> filters = new ArrayList<>();
-                    for (int columna : columnasAFiltrar) {
-                        // Crear un filtro que ignore la distinción entre mayúsculas y minúsculas
-                        RowFilter<Object, Object> filter = RowFilter.regexFilter("(?i)" + jtxtFiltro.getText(), columna);
-                        filters.add(filter);
-                    }
-                
-                    // Combinar los filtros en un RowFilter compuesto
-                    RowFilter<Object, Object> combinedFilter = RowFilter.orFilter(filters);
-                
-                    // Aplicar el filtro a la tabla
-                    trs.setRowFilter(combinedFilter);
-                } catch (PatternSyntaxException ex) {
-                    // Manejar excepción si la expresión regular es inválida
-                    System.out.println(ex);
-                } catch (IllegalArgumentException ex) {
-                    // Manejar excepción si alguna de las columnas especificadas no existe
-                    System.out.println(ex);
-                }
-            }
-        });
-    
-        // Crear un TableRowSorter y aplicarlo a la tabla
-        trs = new TableRowSorter(modelo);
-        TableProducto.setRowSorter(trs);
-
     }                                   
 
     private void btnEditarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarproActionPerformed
@@ -1707,6 +1683,10 @@ public class Sistema extends javax.swing.JFrame {
     private void txtCodigoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProductoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
+
+    private void jtxtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtFiltroActionPerformed
 
 
     /**
