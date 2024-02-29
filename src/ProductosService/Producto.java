@@ -23,7 +23,7 @@ public class Producto implements BaseTableModel {
     private String proveedor;
     // TODO: Convertir en enum (ni idea)
     private String categoria;
-    private String  estado;
+    private boolean habilitado;
 
  
     public Producto() {
@@ -35,7 +35,7 @@ public class Producto implements BaseTableModel {
         codigo = "";
         proveedor= "";
         categoria= "";
-        estado="";
+        habilitado=true;
     }
     
     @Override
@@ -54,7 +54,7 @@ public class Producto implements BaseTableModel {
             this.codigo,
             this.proveedor,
             this.categoria,
-            this.estado,
+            this.habilitado,
                 //agregar los campos nuevos
         };    
         return values;
@@ -66,7 +66,7 @@ public class Producto implements BaseTableModel {
         return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion","codigo", "proveedor","categoria", "estado"};
     }
     
-    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo, String proveedor, String categoria, String estado) {
+    public Producto(int id, float precioUnitario, int cantidadInicial, String titulo, String descripcion, String codigo, String proveedor, String categoria, boolean habilitado) {
        
         this.id = id;
         this.precioUnitario = precioUnitario;
@@ -74,22 +74,14 @@ public class Producto implements BaseTableModel {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.codigo = codigo; //Esto es para el codigo de barra Ej 12312312312312312312423346544324124123
-        this.proveedor=proveedor;
-        this.categoria=categoria;
-        this.estado=estado;
+        this.proveedor = proveedor;
+        this.categoria = categoria;
+        this.habilitado = habilitado;
     }
 
     public String getProveedor() {
         return proveedor;
     }
-    
-//    public void setEstado(String estado) {
-//        this.estado = estado;
-//    }
-//    
-//    public String getEstado() {
-//        return estado;
-//    }
 
     public void setProveedor(String proveedor) {
         this.proveedor = proveedor;
@@ -152,13 +144,12 @@ public class Producto implements BaseTableModel {
         this.categoria = categoria;
     }
     
-     public String getEstado() {
-        return estado;
+     public boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
-
+    public void setHabilitado(boolean habilitado) {
+        this.habilitado = habilitado;
     }
    
 }

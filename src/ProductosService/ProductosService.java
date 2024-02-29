@@ -19,13 +19,13 @@ public class ProductosService {
     private ProductosStore store = new ProductosStore();
     
     public ProductosService () {
-        
+
         Producto[] productos = new Producto[] {
-            new Producto(0, 1600, 10, "Jugo de arandanos", "", "0", "1", "0","HABILITADO"),
-            new Producto(0, 700, 20, "Leche largavida", "", "1", "1", "1","HABILITADO"),
-            new Producto(0, 2500, 10, "Jugo de naranjas", "", "2", "1", "2","HABILITADO"),
-            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "3", "1", "3","HABILITADO"),
-            new Producto(0, 1500, 10, "Monster energy", "", "4", "1", "4","HABILITADO"),
+            new Producto(0, 1600, 10, "Jugo de arandanos", "", "0", "proveedor 1", "Alimento", true),
+            new Producto(0, 700, 20, "Leche largavida", "", "1", "proveedor 1", "Alimento", true),
+            new Producto(0, 2500, 10, "Jugo de naranjas", "", "2", "proveedor 1", "Alimento", true),
+            new Producto(0, 2500, 10, "Gaseosa pepsi 2.25lt", "", "3", "proveedor 1", "Alimento", true),
+            new Producto(0, 1500, 10, "Monster energy", "", "4", "proveedor 1", "Alimento", true),
         }; 
     
         for (int i = 0;i < productos.length; i++){

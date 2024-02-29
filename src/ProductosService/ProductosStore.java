@@ -53,7 +53,7 @@ public class ProductosStore implements CrudOperations<Producto> {
             p.setCategoria(cl.getCategoria());
             p.setCodigo(cl.getCodigo());
             p.setDescripcion(cl.getDescripcion());
-            p.setEstado(cl.getEstado());
+            p.setHabilitado(cl.getHabilitado());
             p.setPrecioUnitario(cl.getPrecioUnitario());
             p.setProveedor(cl.getProveedor());
             p.setTitulo(cl.getTitulo());
