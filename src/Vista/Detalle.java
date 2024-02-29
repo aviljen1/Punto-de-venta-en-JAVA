@@ -72,10 +72,8 @@ public class Detalle extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         PrecioUni = new javax.swing.JTextField();
-        Cod = new javax.swing.JTextField();
         CantInici = new javax.swing.JTextField();
         Titulo = new javax.swing.JTextField();
         Desc = new javax.swing.JTextField();
@@ -96,8 +94,6 @@ public class Detalle extends javax.swing.JDialog {
 
         jLabel6.setText("Descripcion:");
 
-        jLabel7.setText("Codigo:");
-
         jLabel8.setText("Proveedor:");
 
         PrecioUni.addActionListener(new java.awt.event.ActionListener() {
@@ -111,15 +107,6 @@ public class Detalle extends javax.swing.JDialog {
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 PrecioUniKeyTyped(evt);
-            }
-        });
-
-        Cod.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                CodKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                CodKeyTyped(evt);
             }
         });
 
@@ -185,25 +172,27 @@ public class Detalle extends javax.swing.JDialog {
                 .addGap(15, 15, 15))
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(PrecioUni)
-                        .addComponent(CantInici)
-                        .addComponent(Titulo)
-                        .addComponent(Desc)
-                        .addComponent(Cod, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboCat, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboProv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboCat, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboProv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PrecioUni, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                            .addComponent(CantInici)
+                            .addComponent(Titulo)
+                            .addComponent(Desc))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -225,11 +214,7 @@ public class Detalle extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(Desc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(Cod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jComboProv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -237,11 +222,11 @@ public class Detalle extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jComboCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                .addGap(75, 75, 75)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAceptar)
                     .addComponent(BtnCancelar))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();
@@ -284,11 +269,6 @@ public class Detalle extends javax.swing.JDialog {
        //  ProductosValidacion.numberDecimalKeyPress(evt, PrecioUni);
         
     }//GEN-LAST:event_PrecioUniKeyTyped
-
-    private void CodKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CodKeyTyped
-       
-       // ProductosValidacion.numberKeyPress(evt);
-    }//GEN-LAST:event_CodKeyTyped
 
     private void CantIniciKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CantIniciKeyPressed
         // TODO add your handling code here:
@@ -342,18 +322,6 @@ public class Detalle extends javax.swing.JDialog {
     
     
     }//GEN-LAST:event_CantIniciKeyReleased
-
-    private void CodKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CodKeyReleased
-        //Valida el campo obligatorio Codigo de barra
-     /*  obligCod= ProductosValidacion.camposObligTxt(Cod,jLabel7, btnAceptar, contadorP);
-        if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1 ){
-            btnAceptar.setEnabled(true);
-            
-        }else{
-            btnAceptar.setEnabled(false);
-        }*/
-    
-    }//GEN-LAST:event_CodKeyReleased
 
     private void DescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DescKeyReleased
       /* if(obligPrec==1 && obligTit==1 && obligCantI==1 && obligCod==1 ){
@@ -417,7 +385,6 @@ public class Detalle extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnCancelar;
     public javax.swing.JTextField CantInici;
-    public javax.swing.JTextField Cod;
     public javax.swing.JTextField Desc;
     public javax.swing.JTextField PrecioUni;
     public javax.swing.JTextField Titulo;
@@ -429,7 +396,6 @@ public class Detalle extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     public static javax.swing.JLabel jLabel5;
     public static javax.swing.JLabel jLabel6;
-    public static javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     // End of variables declaration//GEN-END:variables
 }

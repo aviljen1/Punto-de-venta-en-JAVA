@@ -1520,37 +1520,109 @@ public class Sistema extends javax.swing.JFrame {
         // Verificar si hay una fila seleccionada
         if (filaSeleccionada != -1) {
             
-            // Obtener los valores de la fila seleccionada
-            String precioUni = TableProducto.getValueAt(filaSeleccionada, 1).toString();
-            String cantIni = TableProducto.getValueAt(filaSeleccionada, 2).toString();
-            String titulo = TableProducto.getValueAt(filaSeleccionada, 3).toString();
-            String desc = TableProducto.getValueAt(filaSeleccionada, 4).toString();
-            String cod = TableProducto.getValueAt(filaSeleccionada, 5).toString();
-            String proveedor = TableProducto.getValueAt(filaSeleccionada, 6).toString();
-            String categoria = TableProducto.getValueAt(filaSeleccionada, 7).toString();
-            
-            // Crear una instancia de Detalle
-            Detalle detalle = new Detalle(this, true);
-            
-            // Establecer los valores obtenidos en los campos del formulario Detalle
-            detalle.PrecioUni.setText(precioUni);
-            detalle.CantInici.setText(cantIni);
-            detalle.Titulo.setText(titulo);
-            detalle.Desc.setText(desc);
-            detalle.Cod.setText(cod);
-            detalle.setProveedor(proveedor);
-            detalle.setCategoria(categoria);
-            
-            // Mostrar la ventana Detalle
-            detalle.setVisible(true);
-            
-            // Cuando la ventana Detalle se cierra, obtener los nuevos valores ingresados
-            // y actualizar la fila correspondiente en la tabla TableProducto
-            detalle.addWindowListener(new java.awt.event.WindowAdapter() {
-                
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                    return;
+    if(TableProducto.getSelectedRowCount()>1){
+         JOptionPane.showMessageDialog(this, "Por favor, seleccione solo una fila para editar.");
+        return;
+    }
+    // Obtener fila seleccionada
+    int filaSeleccionada = TableProducto.getSelectedRow();
+    
+    // Verificar si hay una fila seleccionada
+    if (filaSeleccionada != -1) {
+        
+        // Obtener los valores de la fila seleccionada
+        String precioUni = TableProducto.getValueAt(filaSeleccionada, 1).toString();
+        String cantIni = TableProducto.getValueAt(filaSeleccionada, 2).toString();
+        String titulo = TableProducto.getValueAt(filaSeleccionada, 3).toString();
+        String desc = TableProducto.getValueAt(filaSeleccionada, 4).toString();
+        String proveedor = TableProducto.getValueAt(filaSeleccionada, 6).toString();
+        String categoria = TableProducto.getValueAt(filaSeleccionada, 7).toString();
+        
+        // Crear una instancia de Detalle
+        Detalle detalle = new Detalle(this, true);
+        
+        // Establecer los valores obtenidos en los campos del formulario Detalle
+        detalle.PrecioUni.setText(precioUni);
+        detalle.CantInici.setText(cantIni);
+        detalle.Titulo.setText(titulo);
+        detalle.Desc.setText(desc);
+        detalle.setProveedor(proveedor);
+        detalle.setCategoria(categoria);
+        
+        // Mostrar la ventana Detalle
+        detalle.setVisible(true);
+        
+        // Cuando la ventana Detalle se cierra, obtener los nuevos valores ingresados
+        // y actualizar la fila correspondiente en la tabla TableProducto
+        detalle.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                if (detalle.getAceptado()) { // Si el usuario hizo clic en "Aceptar"
+                    
+
+                    //Validar:
+                    //Validar el Precio Unitario:  
+                    if (!detalle.PrecioUni.getText().isEmpty() && ProductosValidacion.isNumeric(detalle.PrecioUni.getText())) {
+                        // Convertir a float
+                        float nuevoPrecioUni = Float.parseFloat(detalle.PrecioUni.getText());
+                        // Actualizar la fila correspondiente en la tabla TableProducto
+                        TableProducto.setValueAt(nuevoPrecioUni, filaSeleccionada, 1);
+                    } else {
+                        // Manejar el caso donde el valor ingresado no es válido
+                        JOptionPane.showMessageDialog(null, "Por favor, ingrese un precio válido.");
+                        return; // Salir del método o tomar otras acciones según sea necesario
+                    }
+                     
+                    
+                     //Validar el Nueva cantidad inicial:    
+                    if (!detalle.CantInici.getText().isEmpty() && ProductosValidacion.isInteger(detalle.CantInici.getText())) {
+                       int nuevaCantIni = Integer.parseInt(detalle.CantInici.getText());
+                       // Actualizar la fila correspondiente en la tabla TableProducto     
+                       TableProducto.setValueAt(nuevaCantIni, filaSeleccionada, 2);
+                    } else {
+                        // Manejar el caso donde el valor ingresado no es válido
+                        JOptionPane.showMessageDialog(null, "Por favor, ingrese una cantidad inicial valida.");
+                        return; // Salir del método o tomar otras acciones según sea necesario
+                    }
+                    
+
+                    //Validar Titulo:
+                    if (!detalle.Titulo.getText().isEmpty() && !ProductosValidacion.contieneNumeros(detalle.Titulo.getText())) {
+                        // El título no contiene números
+                        String nuevoTitulo = detalle.Titulo.getText();
+                        // Actualizar la fila correspondiente en la tabla TableProducto     
+                        TableProducto.setValueAt(nuevoTitulo, filaSeleccionada, 3);
+                    } else {
+                        // El título contiene al menos un número o está vacío
+                        JOptionPane.showMessageDialog(null, "Por favor ingresa un Título válido y que no contenga números.");
+                        return; // Salir del método o tomar otras acciones según sea necesario
+                    }
+                    
+                   
+                    
+                        //Validar Desc:
+                    if ( !ProductosValidacion.contieneNumeros(detalle.Desc.getText())) {
+                        // El título no contiene números
+                         String nuevaDesc = detalle.Desc.getText();
+                        // Actualizar la fila correspondiente en la tabla TableProducto     
+                        TableProducto.setValueAt(nuevaDesc, filaSeleccionada, 4);
+                    } else {
+                        // El título contiene al menos un número o está vacío
+                        JOptionPane.showMessageDialog(null, "Por favor ingresa una descripcion valida.");
+                        return; // Salir del método o tomar otras acciones según sea necesario
+                    }
+                    
+                    
+                    //Setear proveedor y categ:
+                    String nuevoProveedor = detalle.getProveedorSeleccionado();
+                    String nuevaCategoria = detalle.getCategoriaSeleccionada();
+                    //Setear a la tabla proveedor y categ:
+                    TableProducto.setValueAt(nuevoProveedor, filaSeleccionada, 6);
+                    TableProducto.setValueAt(nuevaCategoria, filaSeleccionada, 7);
+
+                     
+
+             
                 }
                 
                 @Override
