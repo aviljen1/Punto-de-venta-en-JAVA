@@ -61,6 +61,7 @@ public class Sistema extends javax.swing.JFrame {
     int obligCantI = 0;
     int obligCod = 0;
     int Borrar = 0;
+    static int bandera=0;
     DefaultTableModel modelo = new DefaultTableModel();
     //Tabla de productos
     
@@ -344,6 +345,12 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel6.setText("Vuelto");
+
+        paymentCashPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paymentCashPagoActionPerformed(evt);
+            }
+        });
 
         paymentCashVuelto.setEnabled(false);
 
@@ -953,11 +960,12 @@ public class Sistema extends javax.swing.JFrame {
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtPrecioUni, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCantIni, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTit, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxProveedorPro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxCatego, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbxCatego, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtCod, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtDesc, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtTit, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)))
                         .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
@@ -1501,7 +1509,7 @@ public class Sistema extends javax.swing.JFrame {
     }                                   
 
     private void btnEditarproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarproActionPerformed
-
+       
         if(TableProducto.getSelectedRowCount()>1){
             JOptionPane.showMessageDialog(this, "Por favor, seleccione solo una fila para editar.");
             return;
@@ -1518,6 +1526,7 @@ public class Sistema extends javax.swing.JFrame {
             String cantIni = TableProducto.getValueAt(filaSeleccionada, 2).toString();
             String titulo = TableProducto.getValueAt(filaSeleccionada, 3).toString();
             String desc = TableProducto.getValueAt(filaSeleccionada, 4).toString();
+            String codi= TableProducto.getValueAt(filaSeleccionada, 5).toString();
             String proveedor = TableProducto.getValueAt(filaSeleccionada, 6).toString();
             String categoria = TableProducto.getValueAt(filaSeleccionada, 7).toString();
 
@@ -1529,12 +1538,13 @@ public class Sistema extends javax.swing.JFrame {
             detalle.CantInici.setText(cantIni);
             detalle.Titulo.setText(titulo);
             detalle.Desc.setText(desc);
+            detalle.jLabelCod.setText(codi);
             detalle.setProveedor(proveedor);
             detalle.setCategoria(categoria);
 
             // Mostrar la ventana Detalle
             detalle.setVisible(true);
-
+            bandera=1;
             // Cuando la ventana Detalle se cierra, obtener los nuevos valores ingresados
             // y actualizar la fila correspondiente en la tabla TableProducto
             detalle.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1548,13 +1558,21 @@ public class Sistema extends javax.swing.JFrame {
                             float nuevoPrecioUni = Float.parseFloat(detalle.PrecioUni.getText());
                             // Actualizar la fila correspondiente en la tabla TableProducto
                             TableProducto.setValueAt(nuevoPrecioUni, filaSeleccionada, 1);
+                            detalle.setVisible(false);
+                           
                         } else {
                             // Manejar el caso donde el valor ingresado no es válido
-                            JOptionPane.showMessageDialog(null, "Por favor, ingrese un precio válido.");
-                            return; // Salir del método o tomar otras acciones según sea necesario
+                            //JOptionPane.showMessageDialog(null, "Por favor, ingrese un precio válido.");
+                           // return; // Salir del método o tomar otras acciones según sea necesario
+                          // System.out.println(bandera);
+                           CustomDialog.showMessageDialog(null, "Por favor, ingrese un precio válido.");
+                           detalle.setVisible(true);
+                           
+                           return;
                         }
+                        
 
-
+                        
                          //Validar el Nueva cantidad inicial:    
                         if (!detalle.CantInici.getText().isEmpty() && ProductosValidacion.isInteger(detalle.CantInici.getText())) {
                            int nuevaCantIni = Integer.parseInt(detalle.CantInici.getText());
@@ -1568,30 +1586,31 @@ public class Sistema extends javax.swing.JFrame {
 
 
                         //Validar Titulo:
-                        if (!detalle.Titulo.getText().isEmpty() && !ProductosValidacion.contieneNumeros(detalle.Titulo.getText())) {
-                            // El título no contiene números
+                        if (!detalle.Titulo.getText().isEmpty()) {
+                            // El título no esta vacio
                             String nuevoTitulo = detalle.Titulo.getText();
                             // Actualizar la fila correspondiente en la tabla TableProducto     
                             TableProducto.setValueAt(nuevoTitulo, filaSeleccionada, 3);
                         } else {
-                            // El título contiene al menos un número o está vacío
-                            JOptionPane.showMessageDialog(null, "Por favor ingresa un Título válido y que no contenga números.");
+                            // El título está vacío
+                            JOptionPane.showMessageDialog(null, "Por favor ingresa un Título válido.");
                             return; // Salir del método o tomar otras acciones según sea necesario
                         }
 
 
 
-                            //Validar Desc:
-                        if ( !ProductosValidacion.contieneNumeros(detalle.Desc.getText())) {
+                            //Desc:
+                        //if ( !ProductosValidacion.contieneNumeros(detalle.Desc.getText())) {
                             // El título no contiene números
                              String nuevaDesc = detalle.Desc.getText();
                             // Actualizar la fila correspondiente en la tabla TableProducto     
                             TableProducto.setValueAt(nuevaDesc, filaSeleccionada, 4);
-                        } else {
+                           
+                        //} else {
                             // El título contiene al menos un número o está vacío
-                            JOptionPane.showMessageDialog(null, "Por favor ingresa una descripcion valida.");
-                            return; // Salir del método o tomar otras acciones según sea necesario
-                        }
+                          //  JOptionPane.showMessageDialog(null, "Por favor ingresa una descripcion valida.");
+                           // return; // Salir del método o tomar otras acciones según sea necesario
+                       // }
 
 
                         //Setear proveedor y categ:
@@ -1616,6 +1635,10 @@ public class Sistema extends javax.swing.JFrame {
     private void jtxtFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtFiltroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtFiltroActionPerformed
+
+    private void paymentCashPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paymentCashPagoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paymentCashPagoActionPerformed
 
 
     /**
