@@ -1756,15 +1756,26 @@ public class Sistema extends javax.swing.JFrame {
     }//GEN-LAST:event_paymentCashPagoActionPerformed
 
     private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCancelarActionPerformed
-
+       //esto se lo agregue porque si quiero cancelar queda pintado de rojo entonces esto lo deja en gris
+        PrecioUni.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        CantInici.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        Titulo.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        Desc.setBorder(new LineBorder(new Color(245, 245, 245), 2));
         modalUpdateFrame.setVisible(false);
     }//GEN-LAST:event_BtnCancelarActionPerformed
 
+    //BOTON ACEPTAR
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+   
+      // TODO add your handling code here:
 
         // TODO: Arreglar colores de los inputs en modalUpdate
-        
+          // Eliminar el borde rojo de todos los campos de entrada
+      
+        PrecioUni.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        CantInici.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        Titulo.setBorder(new LineBorder(new Color(245, 245, 245), 2));
+        Desc.setBorder(new LineBorder(new Color(245, 245, 245), 2));
         String productoCodigo = jLabelCod.getText();
         
         Producto prodToUpdate = null;
@@ -1783,17 +1794,20 @@ public class Sistema extends javax.swing.JFrame {
             nuevoPrecioUni = Float.parseFloat(PrecioUni.getText());
             prodToUpdate.setPrecioUnitario(nuevoPrecioUni);
             
-        } catch (Exception ex) {
+        } catch (Exception ex) {  
+           
             JOptionPane.showMessageDialog(modalUpdateFrame, "Por favor, ingrese un precio válido.");
             PrecioUni.setBorder(new LineBorder(Color.RED, 2));
             PrecioUni.setText(prodToUpdate.getPrecioUnitario() + "");
             return;
+            
         }
                  
         // Validar el Nueva cantidad inicial
         int nuevaCantIni = 0;
 
         try {
+         
             nuevaCantIni = Integer.parseInt(CantInici.getText());
             prodToUpdate.setCantidadInicial(nuevaCantIni);
         } catch (Exception ex) {
@@ -1803,12 +1817,13 @@ public class Sistema extends javax.swing.JFrame {
             return;
         }
 
-        String nuevoTitulo = Titulo.getText();
+        String nuevoTitulo = Titulo.getText().trim();
+        
         //Validar Titulo:
-        if (nuevoTitulo.equals("")) {
+        if (nuevoTitulo.isEmpty()) {
             JOptionPane.showMessageDialog(modalUpdateFrame, "Por favor ingresa un Título válido.");
             Titulo.setBorder(new LineBorder(Color.RED, 2));
-            Titulo.setText(prodToUpdate.getTitulo() + "");
+            Titulo.setText(prodToUpdate.getTitulo());
             return; // Salir del método o tomar otras acciones según sea necesario
         }
         
@@ -1833,7 +1848,8 @@ public class Sistema extends javax.swing.JFrame {
         
         LimpiarTable((DefaultTableModel) TableProducto.getModel());
         LoadProductos();
-
+     
+//FIN ACEPTAR
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void DescKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DescKeyReleased
