@@ -4,6 +4,7 @@
  */
 package VentasService;
 
+import Exceptions.StoreException;
 import Modelo.CrudOperations;
 import VentasService.Venta;
 import java.util.ArrayList;
@@ -47,8 +48,15 @@ public class VentasStore implements CrudOperations<Venta> {
     }
 
     @Override
-    public Venta Obtener(Venta obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Venta Obtener(Venta obj) throws StoreException {
+        for (int i=0; i < this.store.size(); i++){
+            if (this.store.get(i).getId() == obj.getId()){
+                return this.store.get(i);
+            }
+        }
+        
+        throw new StoreException("");
+    
     }
     
 }
