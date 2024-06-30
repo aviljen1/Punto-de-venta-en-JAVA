@@ -122,6 +122,21 @@ public class Sistema extends javax.swing.JFrame {
                 return columns[index];
             }
         });
+        
+        // Custom model for Venta detalle table
+        TableVentaDetalle.setModel(new DefaultTableModel() {
+            String[] columns = ProductoDetalle.getColumnNames();
+
+            @Override
+            public int getColumnCount() {
+                return columns.length;
+            }
+
+            @Override
+            public String getColumnName(int index) {
+                return columns[index];
+            }
+        });
 
         LoadProductos();
 
@@ -207,6 +222,23 @@ public class Sistema extends javax.swing.JFrame {
         ClearTableVenta();
         detalle.forEach(prod -> AddDetalleProducto(prod));
     }
+    
+    public void LoadVentaDetalle(List<ProductoDetalle> detalle) {
+        ClearTableVenta();
+        DefaultTableModel dtm = (DefaultTableModel) TableVentaDetalle.getModel();
+        dtm.setRowCount(0);
+        
+        modelo = (DefaultTableModel) TableVentaDetalle.getModel();
+        
+        for (ProductoDetalle pDetalle: detalle) {
+            Object[] toAdd = pDetalle.toObject();
+            
+            modelo.addRow(toAdd);
+        }
+        
+        TableVentaDetalle.setModel(modelo);
+        
+    }
 
     public void AddDetalleProducto(ProductoDetalle prodDetalle) {
         Object[] toAdd = prodDetalle.toObject();
@@ -271,6 +303,9 @@ public class Sistema extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jTotal = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TableVentaDetalle = new javax.swing.JTable();
+        jLabel20 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         menuVentasBtn = new javax.swing.JButton();
         menuProductosBtn = new javax.swing.JButton();
@@ -636,7 +671,7 @@ public class Sistema extends javax.swing.JFrame {
                 .addGap(27, 27, 27))
         );
 
-        jId.setText("jTextField1");
+        jId.setEditable(false);
         jId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jIdActionPerformed(evt);
@@ -647,7 +682,22 @@ public class Sistema extends javax.swing.JFrame {
 
         jLabel19.setText("Total");
 
-        jTotal.setText("jTextField1");
+        jTotal.setEditable(false);
+
+        TableVentaDetalle.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(TableVentaDetalle);
+
+        jLabel20.setText("Detalle");
 
         javax.swing.GroupLayout modalDetalleLayout = new javax.swing.GroupLayout(modalDetalle);
         modalDetalle.setLayout(modalDetalleLayout);
@@ -660,12 +710,15 @@ public class Sistema extends javax.swing.JFrame {
                     .addGroup(modalDetalleLayout.createSequentialGroup()
                         .addComponent(jLabel19)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel18)))
-                .addGap(48, 48, 48)
+                        .addComponent(jLabel18))
+                    .addComponent(jLabel20))
+                .addGap(37, 37, 37)
                 .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(484, Short.MAX_VALUE))
+                    .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jId)
+                        .addComponent(jTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 892, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         modalDetalleLayout.setVerticalGroup(
             modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -687,7 +740,11 @@ public class Sistema extends javax.swing.JFrame {
                             .addGroup(modalDetalleLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel19)))))
-                .addContainerGap(397, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -2037,21 +2094,25 @@ public class Sistema extends javax.swing.JFrame {
 
             // Obtener los valores de la fila seleccionada
             String VentaID = TableVentasHistorico.getValueAt(filaSeleccionada, 0).toString();
-           int castID= Integer.parseInt(VentaID);
-           Venta ventaEncontrada=null;
-            JOptionPane.showMessageDialog(this, VentaID);
-            try{
-                ventaEncontrada=ventasService.fetch(castID);
+            
+            int castID= Integer.parseInt(VentaID);
+            
+            Venta ventaEncontrada = null;
+            
+            try {
+                ventaEncontrada = ventasService.fetch(castID);
                 
-                jId.setText(ventaEncontrada.getId()+"");
                 initializeVentaDetalleModal();
                 modalVentaFrame.getContentPane().add(modalDetalle);
                 modalVentaFrame.pack();
                 modalVentaFrame.setVisible(true);
-                jTotal.setText(ventaEncontrada.getTotal()+"");
                 
+                jId.setText(ventaEncontrada.getId() + "");
+                jTotal.setText(ventaEncontrada.getTotal() + "");
                 
-            }catch(Exception EX){
+                LoadVentaDetalle(ventaEncontrada.getDetalle());
+                
+            } catch(Exception ex) {
                 
             }
          /*  
@@ -2135,6 +2196,7 @@ public class Sistema extends javax.swing.JFrame {
     public javax.swing.JTextField PrecioUni;
     private javax.swing.JTable TableProducto;
     private javax.swing.JTable TableVenta;
+    private javax.swing.JTable TableVentaDetalle;
     private javax.swing.JTable TableVentasHistorico;
     public javax.swing.JTextField Titulo;
     private javax.swing.JPanel adminPanel;
@@ -2170,6 +2232,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
@@ -2197,6 +2260,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField22;
