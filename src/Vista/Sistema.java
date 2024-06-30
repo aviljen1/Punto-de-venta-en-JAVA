@@ -37,6 +37,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import java.util.InputMismatchException;
+import java.util.Set;
 import java.util.Vector;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.DefaultListModel;
@@ -1520,6 +1521,13 @@ public class Sistema extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 
+        obligTit = 0;
+        obligPrec = 0;
+        obligCantI = 0;
+        obligCod = 0;
+        
+        btnSaveProducto.setEnabled(false);
+        
     }//GEN-LAST:event_btnSaveProductoActionPerformed
 
     private void cbxProveedorProActionPerformed(java.awt.event.ActionEvent evt) {
