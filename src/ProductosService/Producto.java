@@ -61,8 +61,6 @@ public class Producto implements BaseTableModel {
     }
     
     public static String[] getColumnNames() {
-       
-        
         return new String[]{ "id", "Precio Unitario", "Cantidad Inicial", "Titulo", "descripcion","codigo", "proveedor","categoria", "estado"};
     }
     

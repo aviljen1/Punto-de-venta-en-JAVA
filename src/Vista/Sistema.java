@@ -284,6 +284,7 @@ public class Sistema extends javax.swing.JFrame {
         btnSaveSale = new javax.swing.JButton();
         btnAddProductToSale = new javax.swing.JButton();
         checkboxAplicaIva = new java.awt.Checkbox();
+        btnClearVenta = new javax.swing.JButton();
         ventasHistPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableVentasHistorico = new javax.swing.JTable();
@@ -751,6 +752,14 @@ public class Sistema extends javax.swing.JFrame {
         checkboxAplicaIva.setLabel("Aplica IVA");
         checkboxAplicaIva.setState(true);
 
+        btnClearVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/borrar.png"))); // NOI18N
+        btnClearVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Img/borrar.png"))); // NOI18N
+        btnClearVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearVentaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout nuevaVentaPanelLayout = new javax.swing.GroupLayout(nuevaVentaPanel);
         nuevaVentaPanel.setLayout(nuevaVentaPanelLayout);
         nuevaVentaPanelLayout.setHorizontalGroup(
@@ -778,9 +787,11 @@ public class Sistema extends javax.swing.JFrame {
                                     .addComponent(txtCantidadVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAddProductToSale)
+                                .addComponent(btnAddProductToSale, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEliminarventa)))
+                                .addComponent(btnEliminarventa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnClearVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -800,8 +811,9 @@ public class Sistema extends javax.swing.JFrame {
                     .addGroup(nuevaVentaPanelLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(nuevaVentaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnEliminarventa)
-                            .addComponent(btnAddProductToSale, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnEliminarventa, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnClearVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddProductToSale, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1238,6 +1250,9 @@ public class Sistema extends javax.swing.JFrame {
     private void menuProductosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProductosBtnActionPerformed
         // TODO add your handling code here:
         principalPanel.setSelectedIndex(3);
+        jtxtFiltro.setText("");
+        LimpiarTable((DefaultTableModel) TableProducto.getModel());
+        LoadProductos();
     }//GEN-LAST:event_menuProductosBtnActionPerformed
 
     private void initializeModal() {
@@ -1280,47 +1295,40 @@ public class Sistema extends javax.swing.JFrame {
     private void btnCashConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCashConfirmActionPerformed
         // TODO add your handling code here:
 
-        // Inicializamos el modal
-        final Observer obs = new Observer();
-
-        Runnable doModal;
-        doModal = new Runnable() {
-            @Override
-            public void run() {
-                modalFrame.getContentPane().removeAll();
-                modalFrame.getContentPane().add(modalProgressBar);
-                modalFrame.pack();
-                modalFrame.setVisible(true);
-
-                synchronized (obs) {
-                    while (obs.getFlag()) {
-                        try {
-                            Thread.sleep(5);
-                        } catch (InterruptedException ex) {
-                        }
-                    }
-                }
-
-                modalFrame.setVisible(false);
-            }
-        };
-
-        java.awt.EventQueue.invokeLater(doModal);
-
         // Casteo a string
         paymentCashMonto.setText(this.tmpVenta.getTotal() + "");
-
+        paymentCashPago.setText("");
+        paymentCashVuelto.setText("");
+        
         try {
             // Esto tarda un poco y es muy poco descriptivo
             ventasService.add(tmpVenta, "Cash");
         } catch (Exception ex) {
 
         }
+        
+        List<ProductoDetalle> detalle = this.tmpVenta.getDetalle();
+        
+        for (ProductoDetalle prod:  detalle) {
+            Producto updateRequest = prod.getProducto();
 
-        synchronized (obs) {
-            obs.setFlag(false);
+            // La validacion de la cantidad de los productos se hace al momento de ingresar el
+            // codigo y la cantidad del producto
+
+            // updateRequest.getCantidadInicial deberia ser siempre mayor o igual que la cantidad
+            // del detalle
+            int newQuantity = Math.abs(updateRequest.getCantidadInicial() - prod.getCantidad());
+            
+            updateRequest.setCantidadInicial(newQuantity);
+            try {
+                productosService.update(updateRequest);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
-
+        
+        modalFrame.setVisible(false);
+        
         ClearVentaInputs();
         LimpiarTable((DefaultTableModel) TableVenta.getModel());
     }//GEN-LAST:event_btnCashConfirmActionPerformed
@@ -1414,6 +1422,12 @@ public class Sistema extends javax.swing.JFrame {
             }
 
             Producto prodFound = this.productosService.fetch(codigoBarras);
+            
+            if (prodFound.getCantidadInicial() < cantidad) {
+                JOptionPane.showMessageDialog(null, "No se puede agregar el producto, stock insuficiente.");
+                return;
+            }
+            
             ProductoDetalle detalle = this.ventasService.createDetalle(prodFound, cantidad);
 
             // Revisamos si hay que juntar el detalle con otro existente
@@ -1919,6 +1933,13 @@ public class Sistema extends javax.swing.JFrame {
 
     }//GEN-LAST:event_PrecioUniKeyTyped
 
+    private void btnClearVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearVentaActionPerformed
+        // TODO add your handling code here:
+        LimpiarTable((DefaultTableModel) TableVenta.getModel());
+        ClearVentaInputs();
+        this.tmpVenta = new Venta();
+    }//GEN-LAST:event_btnClearVentaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1970,6 +1991,7 @@ public class Sistema extends javax.swing.JFrame {
     public javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAddProductToSale;
     private java.awt.Button btnCashConfirm;
+    private javax.swing.JButton btnClearVenta;
     private javax.swing.JButton btnEditarpro;
     private javax.swing.JButton btnEliminarpro;
     private javax.swing.JButton btnEliminarventa;
