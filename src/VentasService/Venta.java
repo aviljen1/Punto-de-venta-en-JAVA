@@ -113,9 +113,9 @@ public class Venta implements BaseTableModel {
         
         return new Object[]{
             this.id,
-            this.paymentInfo.getAmount(),
-            df.format(new Date(this.paymentInfo.getTimestamp())),
-            this.paymentInfo.getCurrency(),
+            this.paymentInfo.getAmount(), //total
+            df.format(new Date(this.paymentInfo.getTimestamp())),//fecha
+            this.paymentInfo.getCurrency(), //moneda
             this.paymentInfo.getRef(),
             this.paymentInfo.getLocation()
         };

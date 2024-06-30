@@ -77,6 +77,7 @@ public class Sistema extends javax.swing.JFrame {
     VentasService ventasService = new VentasService();
     ProductosService productosService = new ProductosService();
     JFrame modalFrame = new JFrame();
+     JFrame modalVentaFrame = new JFrame();
     JFrame modalUpdateFrame = new JFrame();
     JDialog modalDialog;
     Venta tmpVenta = new Venta();
@@ -264,6 +265,12 @@ public class Sistema extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         PrecioUni = new javax.swing.JTextField();
+        modalDetalle = new javax.swing.JPanel();
+        jId = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jTotal = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         menuVentasBtn = new javax.swing.JButton();
         menuProductosBtn = new javax.swing.JButton();
@@ -288,6 +295,7 @@ public class Sistema extends javax.swing.JFrame {
         ventasHistPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableVentasHistorico = new javax.swing.JTable();
+        btnMostrarDetalle = new javax.swing.JButton();
         adminPanel = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -628,6 +636,60 @@ public class Sistema extends javax.swing.JFrame {
                 .addGap(27, 27, 27))
         );
 
+        jId.setText("jTextField1");
+        jId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jIdActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("ID");
+
+        jLabel19.setText("Total");
+
+        jTotal.setText("jTextField1");
+
+        javax.swing.GroupLayout modalDetalleLayout = new javax.swing.GroupLayout(modalDetalle);
+        modalDetalle.setLayout(modalDetalleLayout);
+        modalDetalleLayout.setHorizontalGroup(
+            modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(modalDetalleLayout.createSequentialGroup()
+                .addGap(76, 76, 76)
+                .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel17)
+                    .addGroup(modalDetalleLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel18)))
+                .addGap(48, 48, 48)
+                .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(484, Short.MAX_VALUE))
+        );
+        modalDetalleLayout.setVerticalGroup(
+            modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(modalDetalleLayout.createSequentialGroup()
+                .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(modalDetalleLayout.createSequentialGroup()
+                        .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(modalDetalleLayout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel17))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, modalDetalleLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(modalDetalleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(modalDetalleLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel18))
+                            .addGroup(modalDetalleLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel19)))))
+                .addContainerGap(397, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -853,6 +915,13 @@ public class Sistema extends javax.swing.JFrame {
             TableVentasHistorico.getColumnModel().getColumn(5).setPreferredWidth(80);
         }
 
+        btnMostrarDetalle.setText("Mostrar detalle");
+        btnMostrarDetalle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarDetalleActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ventasHistPanelLayout = new javax.swing.GroupLayout(ventasHistPanel);
         ventasHistPanel.setLayout(ventasHistPanelLayout);
         ventasHistPanelLayout.setHorizontalGroup(
@@ -861,11 +930,17 @@ public class Sistema extends javax.swing.JFrame {
                 .addContainerGap(64, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 888, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
+            .addGroup(ventasHistPanelLayout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addComponent(btnMostrarDetalle, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ventasHistPanelLayout.setVerticalGroup(
             ventasHistPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ventasHistPanelLayout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnMostrarDetalle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -1268,6 +1343,13 @@ public class Sistema extends javax.swing.JFrame {
         modalUpdateFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         modalUpdateFrame.setVisible(true);
     }
+     private void initializeVentaDetalleModal() {
+        modalVentaFrame.setAlwaysOnTop(true); //Esto nos permite que el jFrame sea un modal
+        modalVentaFrame.setLocationRelativeTo(null);
+       // modalVentaFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        modalVentaFrame.setVisible(true);
+    }
+
 
     public void ClearVentaInputs() {
         txtCodigoProducto.setText("");
@@ -1940,6 +2022,74 @@ public class Sistema extends javax.swing.JFrame {
         this.tmpVenta = new Venta();
     }//GEN-LAST:event_btnClearVentaActionPerformed
 
+    private void btnMostrarDetalleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarDetalleActionPerformed
+        // TODO add your handling code here
+        if (TableVentasHistorico.getSelectedRowCount() > 1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione solo una fila para mostrar.");
+            return;
+        }
+
+        // Obtener fila seleccionada
+        int filaSeleccionada = TableVentasHistorico.getSelectedRow();
+
+        // Verificar si hay una fila seleccionada
+        if (filaSeleccionada != -1) {
+
+            // Obtener los valores de la fila seleccionada
+            String VentaID = TableVentasHistorico.getValueAt(filaSeleccionada, 0).toString();
+           int castID= Integer.parseInt(VentaID);
+           Venta ventaEncontrada=null;
+            JOptionPane.showMessageDialog(this, VentaID);
+            try{
+                ventaEncontrada=ventasService.fetch(castID);
+                
+                jId.setText(ventaEncontrada.getId()+"");
+                initializeVentaDetalleModal();
+                modalVentaFrame.getContentPane().add(modalDetalle);
+                modalVentaFrame.pack();
+                modalVentaFrame.setVisible(true);
+                jTotal.setText(ventaEncontrada.getTotal()+"");
+                
+                
+            }catch(Exception EX){
+                
+            }
+         /*  
+            // ACA
+            initializeUpdateModal();
+
+            // Inicializamos el modal
+            modalUpdateFrame.getContentPane().add(modalUpdate);
+            modalUpdateFrame.pack();
+            modalUpdateFrame.setVisible(true);
+
+            // Crear una instancia de Detalle
+//            Detalle detalle = new Detalle(this, true);
+            // Establecer los valores obtenidos en los campos del formulario Detalle
+            PrecioUni.setText(precioUni);
+            CantInici.setText(cantIni);
+            Titulo.setText(titulo);
+            Desc.setText(desc);
+            jLabelCod.setText(codi);
+            jComboProv.setSelectedItem(proveedor);
+            jComboCat.setSelectedItem(categoria);
+
+            // Mostrar la ventana Detalle
+//            detalle.setVisible(true);
+            bandera = 1;
+            // Cuando la ventana Detalle se cierra, obtener los nuevos valores ingresados
+            // y actualizar la fila correspondiente en la tabla TableProducto */
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione una fila para mostrar.");
+        }
+
+        
+    }//GEN-LAST:event_btnMostrarDetalleActionPerformed
+
+    private void jIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jIdActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1996,6 +2146,7 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminarpro;
     private javax.swing.JButton btnEliminarventa;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnMostrarDetalle;
     private javax.swing.JButton btnSaveProducto;
     private javax.swing.JButton btnSaveSale;
     private javax.swing.JComboBox<String> cbxCatego;
@@ -2006,6 +2157,7 @@ public class Sistema extends javax.swing.JFrame {
     public javax.swing.JComboBox<String> jComboCat;
     public javax.swing.JComboBox<String> jComboProv;
     private javax.swing.JFrame jFrame1;
+    private javax.swing.JTextField jId;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2014,6 +2166,9 @@ public class Sistema extends javax.swing.JFrame {
     public static javax.swing.JLabel jLabel14;
     public static javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -2049,10 +2204,12 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField24;
     private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField26;
+    private javax.swing.JTextField jTotal;
     private javax.swing.JTextField jtxtFiltro;
     private java.awt.List list1;
     private javax.swing.JButton menuProductosBtn;
     private javax.swing.JButton menuVentasBtn;
+    private javax.swing.JPanel modalDetalle;
     private javax.swing.JPanel modalProgressBar;
     private javax.swing.JPanel modalUpdate;
     private javax.swing.JPanel nuevaVentaPanel;

@@ -167,5 +167,14 @@ public class VentasService {
             throw new StoreException(ex.getMessage());
         }
     }
+    public Venta fetch(int id) throws StoreException {
+        try {
+            Venta request = new Venta();
+            request.setId(id);
+            return this.store.Obtener(request);
+        } catch (Exception ex) {
+            throw new StoreException("Codigo de barras no reconocido");
+        }
+    }
     
 }
