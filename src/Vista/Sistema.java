@@ -1497,6 +1497,7 @@ public class Sistema extends javax.swing.JFrame {
             try {
                 productosService.fetch(codigo);
                 JOptionPane.showMessageDialog(null, "El producto con el codigo " + codigo + " ya existe.");
+                Limpiarproducto();//limpia
             } catch (Exception ex) {
                 Producto nuevoProducto = new Producto(
                         id,
