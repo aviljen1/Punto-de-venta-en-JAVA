@@ -9,6 +9,9 @@ import Modelo.CrudOperations;
 import ProductosService.Producto;
 import java.util.ArrayList;
 import java.util.List;
+import Persistence.H2Connector;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +20,15 @@ import java.util.List;
 public class ProductosStore implements CrudOperations<Producto> {
 
     private List<Producto> store = new ArrayList<>();
+    private H2Connector DBConnector;
+    
+    public ProductosStore() {
+        try {
+            this.DBConnector = new H2Connector();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }
     
     @Override
     public boolean Registrar(Producto cl) {

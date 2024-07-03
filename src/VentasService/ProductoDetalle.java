@@ -40,7 +40,7 @@ public class ProductoDetalle {
     }
     
     public static final String[] getColumnNames() {
-        return new String[]{ "Codigo", "Producto", "Cantidad", "Descuento", "Subtotal", "Iva", "Total"};
+        return new String[]{ "Codigo", "Producto", "Cantidad", "Precio unitario", "Descuento", "Subtotal", "Iva", "Total"};
     }
     
     public Object[] toObject() {
@@ -48,6 +48,7 @@ public class ProductoDetalle {
             this.productoCodigo,
             this.producto,
             this.cantidad,
+            this.producto.getPrecioUnitario(),
             this.descuento,
             this.subtotal,
             this.iva,

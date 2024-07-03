@@ -4,10 +4,9 @@
  */
 package ProductosService;
 
-import ProductosService.ProductosStore;
-
 import Exceptions.StoreException;
 import Exceptions.ValidationException;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,10 +15,12 @@ import java.util.List;
  */
 public class ProductosService {
     
-    private ProductosStore store = new ProductosStore();
+    private final ProductosStore store;
     
-    public ProductosService () {
+    public ProductosService() {
 
+        this.store = new ProductosStore();
+        
         Producto[] productos = new Producto[] {
             new Producto(0, 1600, 10, "Jugo de arandanos", "", "0", "proveedor 1", "Alimento", true),
             new Producto(0, 700, 20, "Leche largavida", "", "1", "proveedor 1", "Alimento", true),
@@ -41,12 +42,13 @@ public class ProductosService {
         if (producto.getPrecioUnitario() < 0)
             throw new ValidationException("El precio unitario no puede ser negativo.");
         
-        if (producto.getTitulo() == "")
+        if ("".equals(producto.getTitulo()))
             throw new ValidationException("El titulo del producto no puede ser nulo.");
         
     }
     
     public Producto fetch(String codigo) throws StoreException {
+        // Esto no deberia ser un fetch por id?
         try {
             Producto request = new Producto();
             request.setCodigo(codigo);
